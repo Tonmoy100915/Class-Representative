@@ -18,26 +18,43 @@
 
         /* Print-specific styles */
         @media print {
+            /* Hide all elements that are not meant for printing */
             .no-print {
                 display: none !important;
             }
+
+            /* Show the dedicated print area */
+            .print-area {
+                display: block !important;
+            }
+
+            /* Basic body reset for a clean print page */
             body {
                 background-color: #fff;
                 color: #000;
-                font-size: 12pt;
-            }
-            main.container {
-                max-width: 100%;
-                padding: 0;
+                font-size: 10pt;
                 margin: 0;
+                padding: 1in; /* Add margins for printing */
             }
-            #cr-container {
-                display: block;
+
+            /* Styling for the table that will be printed */
+            #print-table {
+                width: 100%;
+                border-collapse: collapse;
             }
-            .card {
-                box-shadow: none;
-                border: 1px solid #ccc;
-                margin-bottom: 20px;
+
+            #print-table th, #print-table td {
+                border: 1px solid #000;
+                padding: 8px;
+                text-align: left;
+            }
+
+            #print-table th {
+                background-color: #f2f2f2;
+                font-weight: bold;
+            }
+             /* Ensure table rows don't break across pages */
+            #print-table tr {
                 page-break-inside: avoid;
             }
         }
@@ -48,13 +65,14 @@
     <div class="navbar bg-base-100 shadow-lg no-print">
         <div class="flex-1">
             <a class="btn btn-ghost normal-case text-xl">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" /></svg>
+                <img src="Photos/crs.png" class="h-8 w-8" alt="CRs Icon">
                 PCIU CSE CRs
             </a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
                 <li><a href="index.html"> Home</a></li>
+                <li><a href="#notice-section">Notice</a></li>
                 <li><a href="#">About</a></li>
             </ul>
         </div>
@@ -70,17 +88,17 @@
         </div>
     </div>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-4 py-8 no-print">
         <h2 class="text-3xl font-bold text-center mb-8">Meet the Class Representatives</h2>
 
-        <div class="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 bg-base-100 rounded-lg shadow no-print">
+        <div class="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 bg-base-100 rounded-lg shadow">
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Filter by Batch</span>
                 </label>
                 <select id="batch-filter" class="select select-bordered w-full max-w-xs">
                     <option value="all">All Batches</option>
-                    </select>
+                </select>
             </div>
             <div class="form-control">
                 <label class="label">
@@ -96,7 +114,7 @@
             <div class="form-control mt-auto">
                  <button id="print-button" class="btn btn-primary">
                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                       <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                      </svg>
                      Print CR Info
                  </button>
@@ -108,6 +126,23 @@
         <p id="no-results" class="text-center text-gray-500 mt-8 text-xl hidden">No CRs found for the selected filters.</p>
     </main>
 
+    <section id="notice-section" class="container mx-auto px-4 py-8 no-print">
+        <h2 class="text-3xl font-bold text-center mb-8">Notice Board</h2>
+        <div class="max-w-4xl mx-auto card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <ul class="list-disc list-inside space-y-4">
+                    <li><span class="font-semibold text-primary">[10-Sep-2025]:</span> All CRs are requested to attend a meeting regarding the upcoming departmental event. Venue: CSE Meeting Room, Time: 3:00 PM.</li>
+                    <li><span class="font-semibold text-primary">[08-Sep-2025]:</span> Please submit the list of students requiring special assistance for the final exams by the end of this week.</li>
+                    <li><span class="font-semibold text-primary">[05-Sep-2025]:</span> A workshop on "Version Control with Git" will be held next Monday. All CRs are encouraged to inform their respective classes.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div id="print-area" class="print-area hidden">
+        </div>
+
+
     <footer class="footer footer-center p-4 bg-base-300 text-base-content no-print">
         <div>
             <p>Copyright © 2024 - All rights reserved by PCIU CSE Department</p>
@@ -117,137 +152,70 @@
     <script>
         // --- DATA ---
         const crData = [
-            
-            { name: 'A', batch: 1, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
-            { name: 'A', batch: 2, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
-            { name: 'A', batch: 3, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
-            { name: 'A', batch: 4, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
-            { name: 'A', batch: 5, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
-            { name: 'A', batch: 6, section: 'A', photoUrl:'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
-            { name: 'A', batch: 7, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
+            //{ name: 'A', batch: 1, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            //{ name: 'A', batch: 2, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            //{ name: 'A', batch: 3, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            //{ name: 'A', batch: 4, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            //{ name: 'A', batch: 5, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            //{ name: 'A', batch: 6, section: 'A', photoUrl:'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            //{ name: 'A', batch: 7, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
             { name: 'Md. Masud Rana Ashik', batch: 8, section: 'A', photoUrl: 'Photos/rana.jpg', email: 'rana.cse.pciu@outlook.com', phone: '+8801618669641', social: { linkedin: '#', facebook: 'https://www.facebook.com/mrashik000' } },
-
             { name: 'Md. Ahasan Habib', batch: 9, section: 'A', photoUrl: 'Photos/habib.jpg', email: 'habibcse009@gmail.com', phone: '+8801405558831', social: { linkedin: '#', facebook: 'https://www.facebook.com/habibcse009' } },
-
             { name: 'Md. Amir Hossain Jowel', batch: 10, section: 'A', photoUrl:'Photos/jowel.jpg', email: 'mdamirhossainjowel@gmail.com', phone: '+8619038107246', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdamirhossainjowel' } },
-
             { name: 'Md. Sabbir Bin Anwar', batch: 11, section: 'A', photoUrl: 'Photos/anwar.jpg', email: 'sabbir.web21@gmail.com', phone: '+8801628266733', social: { linkedin: '#', facebook: 'https://www.facebook.com/sabbir.binanwar' } },
-
             { name: 'Habib R. Rabby', batch: 12, section: 'A', photoUrl: 'Photos/rabbi.jpg', email: 'habib.r.rabby@gmail.com', phone: '+15715919838', social: { linkedin: '#', facebook: 'https://www.facebook.com/Habib.R.Rabby' } },
-
             { name: 'Md. Tusher', batch: 12, section: 'B', photoUrl: 'Photos/tusher.jpg', email: 'shariftushercse12@gmail.com', phone: '+8801638019370', social: { linkedin: '#', facebook: 'https://www.facebook.com/sharifhtusher70' } },
-
             { name: 'M.A. Nabil', batch: 13, section: 'A', photoUrl: 'Photos/nabil.jpg', email: 'nabilgcc15@gmail.com', phone: '+8801954196150', social: { linkedin: '#', facebook: 'https://www.facebook.com/100007905670114' } },
-
             { name: 'Md. Jahed Hossain Miraz', batch: 13, section: 'B', photoUrl: 'Photos/jahed.jpg', email: 'jahedmirazz@gmail.com', phone: '+8801517148500', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdjahedhossain.mirazz' } },
-
             { name: 'Naimur Rahman Nidrit', batch: 14, section: 'A', photoUrl: 'Photos/nidrit.jpg', email: 'naimur404cse@gmail.com', phone: '+8801309092748', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimur.nidrit' } },
-
             { name: 'Mou Chowdhury', batch: 15, section: 'A', photoUrl: 'Photos/mou.jpg', email: 'moumitachy21@gmail.com', phone: '+8801627860861', social: { linkedin: '#', facebook: 'https://www.facebook.com/mou.chowdhury.794' } },
-
             { name: 'Jahedul Islam', batch: 15, section: 'A', photoUrl: 'Photos/jahedul.jpg', email: 'jahedulislam928@gmail.com', phone: '+8801845684741', social: { linkedin: '#', facebook: 'https://www.facebook.com/Mr.JNjahed' } },
-
             { name: 'Shabbir Ahmed Nibir', batch: 15, section: 'B', photoUrl: 'Photos/nibir.jpg', email: 'shabbirahmednibir.bd@gmail.com', phone: '+8801830556817', social: { linkedin: '#', facebook: 'https://www.facebook.com/shabbir.ahmed.nibir.13' } },
-
             { name: 'A', batch: 16, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-
             { name: 'Shajahan Sujon', batch: 17, section: 'A', photoUrl: 'Photos/sujon.jpg', email: 'shajahansujon15@gmail.com', phone: '+8801627185575', social: { linkedin: '#', facebook: 'https://www.facebook.com/100008897533541' } },
-
             { name: 'Md. Ezazul Hoque', batch: 18, section: 'A', photoUrl: 'Photos/ezazul.jpg', email: 'ezazulhoqueaddress@gmail.com', phone: '+8801997265713', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdezazul.hoqueshikder' } },
-
             { name: 'Tanzina Nizam', batch: 18, section: 'B', photoUrl: 'Photos/nizam.jpg', email: 'tanzinanizamprema7@gmail.com', phone: '+8801690048026', social: { linkedin: '#', facebook: 'https://www.facebook.com/tanzinanizam.prema' } },
-
             { name: 'Md Farhan Ishraq', batch: 18, section: 'C', photoUrl: 'Photos/farhan.jpg', email: 'farhanishraq2000@gmail.com', phone: '+8801976256917', social: { linkedin: '#', facebook: 'https://www.facebook.com/farhan1234.ishraq' } },
-
             { name: 'Jobair Shakib', batch: 19, section: 'A', photoUrl: 'Photos/jobair.jpg', email: 'shakib.jobair@gmail.com', phone: '+8801861285698', social: { linkedin: '#', facebook: 'https://www.facebook.com/jobair123' } },
-
-            { name: 'Rokibul hasan', batch: 19, section: 'B', photoUrl: 'Photos/rokin.jpg', email: 'rokibulhasan299@gmail.com', phone: '+8801533029528', social: { linkedin: '#', facebook: 'https://www.facebook.com/100009832081868' } },
-
+            { name: 'Rokibul Hasan', batch: 19, section: 'B', photoUrl: 'Photos/rokin.jpg', email: 'rokibulhasan299@gmail.com', phone: '+8801533029528', social: { linkedin: '#', facebook: 'https://www.facebook.com/100009832081868' } },
             { name: 'MD Saidul Islam', batch: 20, section: 'A', photoUrl: 'Photos/sayed.jpg', email: 'saidul271998@gmail.com', phone: '+8801621996285', social: { linkedin: '#', facebook: 'https://www.facebook.com/somapto.sayed' } },
-
             { name: 'Md. Shajjat Hossain Nayim', batch: 21, section: 'A', photoUrl: 'Photos/sazzad.jpg', email: 'nayimsrick@gmail.com', phone: '+8801627767501', social: { linkedin: '#', facebook: 'https://www.facebook.com/shajjat325' } },
-
             { name: 'Yeasin Hossain Rabby', batch: 21, section: 'A', photoUrl: 'Photos/rabbi.jpg', email: 'yeasinhossaincse21@gmail.com', phone: '+8801626365709', social: { linkedin: '#', facebook: 'https://www.facebook.com/rabbu.bhaaiyaa' } },
-
             { name: 'Md. Mahfuzur Rahman Miraz', batch: 21, section: 'B', photoUrl: 'Photos/miraz.jpg', email: 'mirazcse108@gmail.com', phone: '+8801313596620', social: { linkedin: '#', facebook: 'https://www.facebook.com/miraz.mahfu' } },
-
             { name: 'Joy Sarkar', batch: 22, section: 'A', photoUrl: 'Photos/joy.jpg', email: 'joysarkar4252@gmail.com', phone: '+8801556615142', social: { linkedin: '#', facebook: 'https://www.facebook.com/100005053995565' } },
-
             { name: 'Md Sajjad Hossain', batch: 22, section: 'B', photoUrl: 'Photos/mirza.PNG', email: 'worksajjadhossain@gmail.com', phone: '+8801521370829', social: { linkedin: '#', facebook: 'https://www.facebook.com/bunnyoutlaw' } },
-
             { name: 'Miraz Hossen Ibnsina', batch: 23, section: 'A', photoUrl: 'Photos/ibnsina.jpg', email: 'mirazibnsina@outlook.com', phone: '+8801869568606', social: { linkedin: '#', facebook: 'http://fb.com/mirazibnsina' } },
-
             { name: 'Bishwajit Aich', batch: 24, section: 'A', photoUrl:'Photos/bishwajit.jpg', email: 'aichbishwajit75@gmail.com', phone: '+8801850137754', social: { linkedin: '#', facebook: 'https://www.facebook.com/Bishwajit.Aich223' } },
-
             { name: 'Fahmida Akter Shormi', batch: 25, section: 'A', photoUrl: 'Photos/sormi.jpg', email: 'ffahmidashormii@gmail.com', phone: '+8801642905250', social: { linkedin: '#', facebook: 'https://www.facebook.com/fahmida.shormi.39' } },
-
-
-
             { name: 'Shrabon Biswas', batch: 26, section: 'A', photoUrl: 'Photos/srabon.jpg', email: 'shrabon276@gmail.com', phone: '+8801830325855', social: { linkedin: '#', facebook: 'https://www.facebook.com/shrabon.biswas.80362/' } },
-
             { name: 'Sirajul Moni', batch: 27, section: 'A', photoUrl: 'Photos/monir.jpg', email: 'sirajulmonir423@gmail.com', phone: '+8801629028559', social: { linkedin: '#', facebook: 'https://www.facebook.com/sirajul.monir.127/about' } },
-
             { name: 'Anayet Ullah Misbha', batch: 27, section: 'B', photoUrl: 'Photos/misbha.jpg', email: 'misbhaeducational@gmail.com', phone: '+8801881277194', social: { linkedin: '#', facebook: 'https://www.facebook.com/misbha1916/about' } },
-
             { name: 'Md Mehedi Hasan Babu', batch: 28, section: 'A', photoUrl: 'Photos/babu.jpg', email: 'mehedihasanbabu0280@gamil.com', phone: '+8801334855784', social: { linkedin: '#', facebook: 'https://www.facebook.com/md.mehedi.hasan.babu.182170/about' } },
-
             { name: 'Nusrat Tamanna', batch: 28, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'nusrat@pciu.edu.bd', phone: '+8801690096936', social: { linkedin: '#', facebook: 'https://www.facebook.com/nusrat.tamanna.132302#' } },
-
             { name: 'Md Alamgir Hossain Asif', batch: 29, section: 'A', photoUrl: 'photos/asif.jpg', email: 'mdreazhosssainasif456@gmail.com', phone: '+8801630447382', social: { linkedin: 'https://linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=md-alamgir-hossain-asif-0006a3249', facebook: 'https://www.facebook.com/md.asif.chowdhury.455952#' } },
-
             { name: 'Md Jawad Hassan', batch: 29, section: 'B', photoUrl: 'Photos/jawad.jpg', email: 'jawadpciu05@gmail.com', phone: '+8801973773627', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdjawad.haasan#' } },
-
             { name: 'Umme Hafsa ', batch: 29, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'ummehafsa7878@gmail.com', phone: '+8801616992405', social: { linkedin: 'https://www.linkedin.com/in/umme-hafsa-142076264?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', facebook: 'https://www.facebook.com/umme.hafsa.881878?mibextid=ZbWKwL' } },
-
             { name: 'Mohammed Arsalan Morshed', batch: 30, section: 'A', photoUrl: 'Photos/.jpg', email: 'mohammedarsalan01707@gmail.com', phone: '+8801308798196', social: { linkedin: 'https://www.linkedin.com/in/mohammed-arsalan-morshed-829a69195/', facebook: 'https://www.facebook.com/mohammed.arsalan.12979' } },
-
             { name: 'Md Momtasir Mohtad Noman ', batch: 30, section: 'A', photoUrl: 'Photos/noman.jpg', email: 'contactmomtasir@gmail.com', phone: '+8801704615591', social: { linkedin: '#', facebook: 'https://www.facebook.com/100029542004617/' } },
-
             { name: 'Naimul Islam Shanto', batch: 30, section: 'B', photoUrl: 'Photos/shanto.jpg', email: 'mdnishanto55@gmail.com', phone: '+8801703639871', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimulislamshanto460/about' } },
-
             { name: 'Sadbin Karim Khan', batch: 30, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'shithikhan929@gmail.com', phone: '+8801752005160', social: { linkedin: '#', facebook: 'https://www.facebook.com/shithi.khan.156964' } },
-
             { name: 'Mohammad Reza Uddin Tonmoy', batch: 31, section: 'A', photoUrl: 'Photos/tonmoy.jpg', email: 'mdrezauddin_cse31d@portcity.edu.bd', phone: '+8801639056199', social: { linkedin: 'https://www.linkedin.com/in/mohammad-reza-uddin-tonmoy-902094374?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', facebook: 'https://www.facebook.com/TonmoyR15/about' } },
-
             { name: 'Abedul Alam ', batch: 31, section: 'A', photoUrl: 'Photos/abed.jpg', email: 'abedalamgf@gmail.com', phone: '+8801611817096', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1FCrs98MPH/' } },
-
             { name: 'Sujit Chakraborty', batch: 31, section: 'B', photoUrl: 'Photos/sujit.jpg', email: 'Sujitchakraborty401@gmail.com', phone: '+8801997730529', social: { linkedin: '#', facebook: 'https://www.facebook.com/sujita.cakrabarti.2025/about' } },
-
             { name: 'Ramish Jahra Binte Hossain ', batch: 31, section: 'C', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'ramishjahra@gmail.com', phone: '+8801839237765', social: { linkedin: '#', facebook: 'https://www.facebook.com/100068473560776/' } },
-
             { name: 'Arpita Barua Pew', batch: 32, section: 'A', photoUrl: 'Photos/pew.jpg', email: 'arpitabaruapew@gmail.com', phone: '+8801310780182', social: { linkedin: '#', facebook: 'https://www.facebook.com/100089288349897/' } },
-
             { name: 'Md Sakib Al Hasan', batch: 32, section: 'B', photoUrl: 'Photos/sakib.jpg', email: 'alhasan.sakib1404@gmail.com', phone: '+8801914444847', social: { linkedin: 'https://www.linkedin.com/in/md-sakib-al-hasan', facebook: 'https://www.facebook.com/alhasan.sakib6989' } },
-
             { name: 'Abu Sayed ', batch: 32, section: 'B', photoUrl: 'Photos/opu.jpg', email: 'gaziopu172@gmail.com', phone: '+8801313341435', social: { linkedin: '#', facebook: 'https://www.facebook.com/abu.sayed.288397' } },
-
             { name: 'Farhana Akter  ', batch: 32, section: 'B', photoUrl: 'Photos/farhana.jpg', email: 'farhanaakter00a@gmail.com', phone: '+8801540023122', social: { linkedin: '#', facebook: 'https://www.facebook.com/farhana.akter.618739' } },
-
             { name: 'Syeda Dillir Hossain Binti', batch: 33, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'dillirhossainbinti@gmail.com', phone: '+8801834001202', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1M65ws4ZK9/' } },
-
             { name: 'Sawda Akter Sinthia', batch: 33, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 's@pciu.edu.bd', phone: '+8801971593626', social: { linkedin: '#', facebook: 'https://www.facebook.com/a' } },
-
             { name: 'Mosammet Nafisa Sultana ', batch: 33, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'nafisasultana566@gmail.com', phone: '+8801845305677', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/19yu6F6BjJ/' } },
-
             { name: 'Tahsin Sultana Tanisha', batch: 33, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'tstanisha04@gmail.com', phone: '+8801824261177', social: { linkedin: '#', facebook: 'https://www.facebook.com/t.s.tanisha.04?mibextid=ZbWKwL' } },
-
             { name: 'Jannatul Jahan Ananna ', batch: 33, section: 'C', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'anannaj@870gmail. com', phone: '+8801722087480', social: { linkedin: '#', facebook: 'https://www.facebook.com/jannatul.jahan.ananna' } },
-
-            { name: 'Saidul Karim ayas', batch: 33, section: 'C', photoUrl: 'Photos/ayas.jpg', email: 'saidulayas@gmail.com', phone: '+8801878584905', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/17GoXQmj1g/' } },
-
+            { name: 'Saidul Karim Ayas', batch: 33, section: 'C', photoUrl: 'Photos/ayas.jpg', email: 'saidulayas@gmail.com', phone: '+8801878584905', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/17GoXQmj1g/' } },
             { name: 'HM Majharul Alam', batch: 34, section: 'A', photoUrl: 'Photos/.jpg', email: 'majharul@pciu.edu.bd', phone: '+8801602838790', social: { linkedin: '#', facebook: 'https://www.facebook.com/prottoy.alam.10/about' } },
-
             { name: 'Fardil Khan', batch: 34, section: 'B', photoUrl: 'Photos/fardil.jpg', email: 'fardil1488@gmail.com', phone: '+8801880616172', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1JwpjmZBJe/' } },
-
             { name: 'Tyaba Akter ', batch: 35, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'tyabaar111@gmail.com', phone: '+8801827939111', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1A1BihPCvS/' } },
-
             { name: 'Fariha Jahan', batch: 35, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'farihajahan487@gmail.com', phone: '+8801880028552', social: { linkedin: '#', facebook: 'https://www.facebook.com/faariha21' } },
         ];
 
@@ -257,8 +225,13 @@
         const sectionFilter = document.getElementById('section-filter');
         const noResults = document.getElementById('no-results');
         const printButton = document.getElementById('print-button');
+        const printArea = document.getElementById('print-area');
 
         // --- FUNCTIONS ---
+        
+        /**
+         * Renders the CR profile cards to the page.
+         */
         function displayCRs(crs) {
             crContainer.innerHTML = ''; 
             noResults.classList.toggle('hidden', crs.length > 0);
@@ -281,9 +254,9 @@
                                 <p>${cr.phone}</p>
                             </div>
                         </div>
-                        <div class="card-actions mt-4 w-full justify-center no-print">
-                            <a href="${cr.social.facebook}" target="_blank" class="btn btn-sm btn-outline btn-info flex-1">Facebook</a>
-                            <a href="${cr.social.linkedin}" target="_blank" class="btn btn-sm btn-outline btn-accent flex-1">LinkedIn</a>
+                        <div class="card-actions mt-4 w-full justify-center">
+                            <a href="${cr.social.facebook}" target="_blank" class="btn btn-sm btn-outline btn-info flex-1"><i class="fab fa-facebook-f"></i> Facebook</a>
+                            <a href="${cr.social.linkedin}" target="_blank" class="btn btn-sm btn-outline btn-accent flex-1"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
                         </div>
                     </div>
                 </div>
@@ -292,6 +265,9 @@
             });
         }
         
+        /**
+         * Populates the batch filter dropdown with unique batches from the data.
+         */
         function populateBatchFilter() {
             const batches = [...new Set(crData.map(cr => cr.batch))];
             batches.sort((a, b) => a - b);
@@ -303,6 +279,9 @@
             });
         }
 
+        /**
+         * Filters CR data based on selected batch and section, then re-renders the cards.
+         */
         function filterCRs() {
             const selectedBatch = batchFilter.value;
             const selectedSection = sectionFilter.value;
@@ -316,15 +295,71 @@
             displayCRs(filteredCRs);
         }
 
-        // --- INITIALIZATION ---
+        /**
+         * Prepares a clean, table-based view of the CR data for printing.
+         */
+        function prepareForPrinting() {
+            const selectedBatch = batchFilter.value;
+            const selectedSection = sectionFilter.value;
+
+            const filteredCRs = crData.filter(cr => {
+                const batchMatch = selectedBatch === 'all' || cr.batch == selectedBatch;
+                const sectionMatch = selectedSection === 'all' || cr.section === selectedSection;
+                return batchMatch && sectionMatch;
+            });
+
+            let printHTML = `
+                <h1 style="text-align: center; margin-bottom: 20px; font-size: 16pt;">PCIU CSE Class Representatives List</h1>
+                <table id="print-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Batch</th>
+                            <th>Section</th>
+                            <th>Email</th>
+                            <th>Mobile Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            filteredCRs.forEach(cr => {
+                printHTML += `
+                    <tr>
+                        <td>${cr.name}</td>
+                        <td>${cr.batch}</td>
+                        <td>DAY-${cr.section}</td>
+                        <td>${cr.email}</td>
+                        <td>${cr.phone}</td>
+                    </tr>
+                `;
+            });
+
+            printHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            printArea.innerHTML = printHTML;
+        }
+
+
+        // --- EVENT LISTENERS & INITIALIZATION ---
+        
+        // Listen for changes on the filter dropdowns
         batchFilter.addEventListener('change', filterCRs);
         sectionFilter.addEventListener('change', filterCRs);
+
+        // Listen for clicks on the print button
         printButton.addEventListener('click', () => {
-            window.print();
+            prepareForPrinting(); // Prepare the clean data table
+            window.print();       // Trigger the browser's print dialog
         });
 
+        // Initial page setup
         populateBatchFilter();
         displayCRs(crData);
+
     </script>
 </body>
 </html>
