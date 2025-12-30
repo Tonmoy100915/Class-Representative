@@ -3,362 +3,505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCIU CSE Class Representatives</title>
+    <title>PCIU CSE Representatives</title>
+    
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="shortcut icon" href="Photos/crs.png" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="shortcut icon" href="Photos/crs.png" type="image/x-icon">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: { DEFAULT: '#2563eb', focus: '#1d4ed8', light: '#eff6ff' },
+                        secondary: { DEFAULT: '#475569', light: '#f8fafc' },
+                        accent: { DEFAULT: '#0ea5e9' }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Outfit', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            overflow-x: hidden;
         }
 
-        /* Print-specific styles */
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        /* Card Hover Effects */
+        .cr-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cr-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Print Styles */
         @media print {
-            /* Hide all elements that are not meant for printing */
-            .no-print {
-                display: none !important;
-            }
-
-            /* Show the dedicated print area */
-            .print-area {
-                display: block !important;
-            }
-
-            /* Basic body reset for a clean print page */
-            body {
-                background-color: #fff;
-                color: #000;
-                font-size: 10pt;
-                margin: 0;
-                padding: 1in; /* Add margins for printing */
-            }
-
-            /* Styling for the table that will be printed */
-            #print-table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-
-            #print-table th, #print-table td {
-                border: 1px solid #000;
-                padding: 8px;
-                text-align: left;
-            }
-
-            #print-table th {
-                background-color: #f2f2f2;
-                font-weight: bold;
-            }
-             /* Ensure table rows don't break across pages */
-            #print-table tr {
-                page-break-inside: avoid;
-            }
+            .no-print { display: none !important; }
+            .print-area { display: block !important; }
+            body { background: white; padding: 0; margin: 0; }
+            #print-table { width: 100%; border-collapse: collapse; font-size: 11pt; }
+            #print-table th, #print-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
+            #print-table th { background-color: #f1f5f9; color: #0f172a; }
         }
     </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-slate-50 min-h-screen flex flex-col">
 
-    <div class="navbar bg-base-100 shadow-lg no-print">
+    <nav class="navbar nav-glass sticky top-0 z-50 px-4 lg:px-12 h-20 no-print">
         <div class="flex-1">
-            <a class="btn btn-ghost normal-case text-xl">
-                <img src="Photos/crs.png" class="h-8 w-8" alt="CRs Icon">
-                PCIU CSE CRs
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-DEFAULT to-accent flex items-center justify-center text-white shadow-lg shadow-primary-DEFAULT/30 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-graduation-cap text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-800 tracking-tight leading-none">PCIU <span class="text-primary-DEFAULT">Connect</span></h1>
+                    <p class="text-[10px] font-medium text-slate-400 uppercase tracking-widest">CSE Department</p>
+                </div>
             </a>
         </div>
-        <div class="flex-none">
-            <ul class="menu menu-horizontal px-1">
-                <li><a href="index.html"> Home</a></li>
-                <li><a href="#notice-section">Notice</a></li>
-            </ul>
+        <div class="hidden md:flex gap-6">
+            <a href="index.html" class="text-sm font-semibold text-slate-500 hover:text-primary-DEFAULT transition-colors">Home</a>
+            <a href="#notice-section" class="text-sm font-semibold text-slate-500 hover:text-primary-DEFAULT transition-colors">Notices</a>
         </div>
-    </div>
+    </nav>
 
-    <div class="hero min-h-[40vh] no-print" style="background-image: url(https://placehold.co/1200x400/0072b1/ffffff?text=PCIU);">
-        <div class="hero-overlay bg-opacity-80"></div>
-        <div class="hero-content text-center text-neutral-content">
-            <div class="max-w-md">
-                <h1 class="mb-5 text-5xl font-bold">Welcome!</h1>
-                <p class="mb-5">This is the official portal for the Class Representatives of the Department of Computer Science & Engineering at Port City International University.</p>
-            </div>
+    <header class="relative bg-slate-900 overflow-hidden no-print py-20 lg:py-28">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-DEFAULT rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-float"></div>
+        <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-600 rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-float" style="animation-delay: 2s"></div>
+        
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <span class="inline-block py-1.5 px-4 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold tracking-wider mb-6">
+                OFFICIAL PORTAL
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                Architects of <br/>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Future Leadership</span>
+            </h1>
+            <p class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed font-light">
+                Bridging the gap between students and faculty. Meet the dedicated Class Representatives of the Computer Science & Engineering department.
+            </p>
         </div>
-    </div>
+    </header>
 
-    <main class="container mx-auto px-4 py-8 no-print">
-        <h2 class="text-3xl font-bold text-center mb-8">Meet the Class Representatives</h2>
+    <main id="cr-section" class="flex-grow container mx-auto px-4 -mt-16 relative z-20 no-print pb-20">
+        
+        <div class="glass-panel p-6 rounded-3xl shadow-xl mb-12 flex flex-col lg:flex-row gap-6 items-center justify-between">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full lg:w-3/4">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <select id="shift-filter" class="select w-full pl-10 bg-white border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT rounded-xl text-sm font-medium text-slate-600 h-12">
+                        <option value="all">All Shifts</option>
+                        <option value="Day">Day Shift</option>
+                        <option value="Evening">Evening Shift</option>
+                    </select>
+                </div>
 
-        <div class="flex flex-wrap justify-center items-center gap-4 mb-8 p-4 bg-base-100 rounded-lg shadow">
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Filter by Batch</span>
-                </label>
-                <select id="batch-filter" class="select select-bordered w-full max-w-xs">
-                    <option value="all">All Batches</option>
-                </select>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <select id="batch-filter" class="select w-full pl-10 bg-white border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT rounded-xl text-sm font-medium text-slate-600 h-12">
+                        <option value="all">All Batches</option>
+                    </select>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-puzzle-piece"></i>
+                    </div>
+                    <select id="section-filter" class="select w-full pl-10 bg-white border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT rounded-xl text-sm font-medium text-slate-600 h-12">
+                        <option value="all">All Sections</option>
+                        <option value="A">Section A</option>
+                        <option value="B">Section B</option>
+                        <option value="C">Section C</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-control">
-                <label class="label">
-                    <span class="label-text">Filter by Section</span>
-                </label>
-                <select id="section-filter" class="select select-bordered w-full max-w-xs">
-                    <option value="all">All Sections</option>
-                    <option value="A">Section A</option>
-                    <option value="B">Section B</option>
-                    <option value="C">Section C</option>
-                </select>
-            </div>
-            <div class="form-control mt-auto">
-                 <button id="print-button" class="btn btn-primary">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-                     </svg>
-                     Print CR Info
-                 </button>
-            </div>
+
+            <button id="print-button" class="btn h-12 bg-slate-800 hover:bg-slate-900 text-white border-none rounded-xl px-8 shadow-lg shadow-slate-900/20 transition-transform active:scale-95 w-full lg:w-auto">
+                <i class="fa-solid fa-print mr-2"></i> Print List
+            </button>
         </div>
 
-        <div id="cr-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div id="cr-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             </div>
-        <p id="no-results" class="text-center text-gray-500 mt-8 text-xl hidden">No CRs found for the selected filters.</p>
+
+        <div id="no-results" class="hidden flex-col items-center justify-center py-24 text-center">
+            <div class="w-24 h-24 bg-slate-200 rounded-full flex items-center justify-center mb-4 text-slate-400">
+                <i class="fa-solid fa-magnifying-glass text-4xl"></i>
+            </div>
+            <h3 class="text-xl font-bold text-slate-700">No Representatives Found</h3>
+            <p class="text-slate-500 mt-2">Try adjusting your filters to see more results.</p>
+        </div>
+
     </main>
 
-    <section id="notice-section" class="container mx-auto px-4 py-8 no-print">
-        <h2 class="text-3xl font-bold text-center mb-8">Notice Board</h2>
-        <div class="max-w-4xl mx-auto card bg-base-100 shadow-xl">
-            <div class="card-body">
-                <ul class="list-disc list-inside space-y-4">
-                    <li><span class="font-semibold text-primary">[10-Sep-2025]:</span> All CRs are requested to attend a meeting regarding the upcoming departmental event. Venue:A-305, Time: 3:00 PM.</li>
-                    <li><span class="font-semibold text-primary">[08-Sep-2025]:</span> Please submit the list of CR. </li>
-                    <li><span class="font-semibold text-primary">[05-Sep-2025]:</span> Meeting 1:00pm </li>
-                </ul>
+    <section id="notice-section" class="bg-white py-20 border-t border-slate-100 no-print">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-800">Notice Board</h2>
+                <div class="w-16 h-1 bg-primary-DEFAULT mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid gap-6">
+                <div class="group bg-slate-50 hover:bg-white p-6 rounded-2xl border border-slate-100 hover:border-primary-DEFAULT/30 hover:shadow-lg transition-all duration-300 flex items-start gap-6 cursor-pointer">
+                    <div class="bg-white border border-slate-200 w-16 h-16 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:border-primary-DEFAULT group-hover:text-primary-DEFAULT transition-colors">
+                        <span class="text-xs font-bold uppercase text-slate-400">Sep</span>
+                        <span class="text-xl font-black">10</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 group-hover:text-primary-DEFAULT transition-colors">Departmental Executive Meeting</h3>
+                        <p class="text-slate-500 text-sm mt-1 leading-relaxed">Mandatory meeting for all CRs regarding the upcoming cultural fest. Venue: Room A-305 at 3:00 PM.</p>
+                    </div>
+                </div>
+
+                <div class="group bg-slate-50 hover:bg-white p-6 rounded-2xl border border-slate-100 hover:border-primary-DEFAULT/30 hover:shadow-lg transition-all duration-300 flex items-start gap-6 cursor-pointer">
+                    <div class="bg-white border border-slate-200 w-16 h-16 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:border-primary-DEFAULT group-hover:text-primary-DEFAULT transition-colors">
+                        <span class="text-xs font-bold uppercase text-slate-400">Sep</span>
+                        <span class="text-xl font-black">08</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 group-hover:text-primary-DEFAULT transition-colors">Submit Student List</h3>
+                        <p class="text-slate-500 text-sm mt-1 leading-relaxed">Last date to submit the updated student contact list for the semester.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <div id="print-area" class="print-area hidden">
-        </div>
+    <div id="print-area" class="print-area hidden"></div>
 
-
-    <footer class="footer footer-center p-4 bg-base-300 text-base-content no-print">
-        <div>
-            <p>Copyright © 2024 - All rights reserved by PCIU CSE Department</p>
+    <footer class="bg-slate-900 text-slate-400 py-12 no-print border-t border-slate-800">
+        <div class="container mx-auto px-4 text-center">
+            <div class="w-16 h-16 bg-gradient-to-tr from-primary-DEFAULT to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-lg shadow-primary-DEFAULT/20">
+                <i class="fa-solid fa-university"></i>
+            </div>
+            <h3 class="text-white font-bold text-xl mb-1">Dept. of Computer Science & Engineering</h3>
+            <p class="text-slate-500 mb-8">Port City International University</p>
+            
+            <div class="w-full h-px bg-slate-800 max-w-xs mx-auto mb-8"></div>
+            
+            <div class="flex flex-col items-center justify-center gap-2 text-sm">
+                <p>&copy; 2025 PCIU CSE. All rights reserved.</p>
+                <p class="bg-slate-800 px-3 py-1 rounded-full text-xs font-semibold text-primary-DEFAULT">
+                    Developed by <span class="text-white">Mohammad Reza Uddin Tonmoy</span>
+                </p>
+            </div>
         </div>
     </footer>
 
     <script>
-        // --- DATA ---
+        // --- DATASET ---
         const crData = [
-            //{ name: 'A', batch: 1, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            //{ name: 'A', batch: 2, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            //{ name: 'A', batch: 3, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            //{ name: 'A', batch: 4, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            //{ name: 'A', batch: 5, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            //{ name: 'A', batch: 6, section: 'A', photoUrl:'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            //{ name: 'A', batch: 7, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            { name: 'Md. Masud Rana Ashik', batch: 8, section: 'A', photoUrl: 'Photos/rana.jpg', email: 'rana.cse.pciu@outlook.com', phone: '+8801618669641', social: { linkedin: '#', facebook: 'https://www.facebook.com/mrashik000' } },
-            { name: 'Md. Ahasan Habib', batch: 9, section: 'A', photoUrl: 'Photos/habib.jpg', email: 'habibcse009@gmail.com', phone: '+8801405558831', social: { linkedin: '#', facebook: 'https://www.facebook.com/habibcse009' } },
-            { name: 'Md. Amir Hossain Jowel', batch: 10, section: 'A', photoUrl:'Photos/jowel.jpg', email: 'mdamirhossainjowel@gmail.com', phone: '+8619038107246', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdamirhossainjowel' } },
-            { name: 'Md. Sabbir Bin Anwar', batch: 11, section: 'A', photoUrl: 'Photos/anwar.jpg', email: 'sabbir.web21@gmail.com', phone: '+8801628266733', social: { linkedin: '#', facebook: 'https://www.facebook.com/sabbir.binanwar' } },
-            { name: 'Habib R. Rabby', batch: 12, section: 'A', photoUrl: 'Photos/rabbi.jpg', email: 'habib.r.rabby@gmail.com', phone: '+15715919838', social: { linkedin: '#', facebook: 'https://www.facebook.com/Habib.R.Rabby' } },
-            { name: 'Md. Tusher', batch: 12, section: 'B', photoUrl: 'Photos/tusher.jpg', email: 'shariftushercse12@gmail.com', phone: '+8801638019370', social: { linkedin: '#', facebook: 'https://www.facebook.com/sharifhtusher70' } },
-            { name: 'M.A. Nabil', batch: 13, section: 'A', photoUrl: 'Photos/nabil.jpg', email: 'nabilgcc15@gmail.com', phone: '+8801954196150', social: { linkedin: '#', facebook: 'https://www.facebook.com/100007905670114' } },
-            { name: 'Md. Jahed Hossain Miraz', batch: 13, section: 'B', photoUrl: 'Photos/jahed.jpg', email: 'jahedmirazz@gmail.com', phone: '+8801517148500', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdjahedhossain.mirazz' } },
-            { name: 'Naimur Rahman Nidrit', batch: 14, section: 'A', photoUrl: 'Photos/nidrit.jpg', email: 'naimur404cse@gmail.com', phone: '+8801309092748', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimur.nidrit' } },
-            { name: 'Mou Chowdhury', batch: 15, section: 'A', photoUrl: 'Photos/mou.jpg', email: 'moumitachy21@gmail.com', phone: '+8801627860861', social: { linkedin: '#', facebook: 'https://www.facebook.com/mou.chowdhury.794' } },
-            { name: 'Jahedul Islam', batch: 15, section: 'A', photoUrl: 'Photos/jahedul.jpg', email: 'jahedulislam928@gmail.com', phone: '+8801845684741', social: { linkedin: '#', facebook: 'https://www.facebook.com/Mr.JNjahed' } },
-            { name: 'Shabbir Ahmed Nibir', batch: 15, section: 'B', photoUrl: 'Photos/nibir.jpg', email: 'shabbirahmednibir.bd@gmail.com', phone: '+8801830556817', social: { linkedin: '#', facebook: 'https://www.facebook.com/shabbir.ahmed.nibir.13' } },
-            { name: 'A', batch: 16, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'x@gmail.com', phone: '+8801-----', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
-            { name: 'Shajahan Sujon', batch: 17, section: 'A', photoUrl: 'Photos/sujon.jpg', email: 'shajahansujon15@gmail.com', phone: '+8801627185575', social: { linkedin: '#', facebook: 'https://www.facebook.com/100008897533541' } },
-            { name: 'Md. Ezazul Hoque', batch: 18, section: 'A', photoUrl: 'Photos/ezazul.jpg', email: 'ezazulhoqueaddress@gmail.com', phone: '+8801997265713', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdezazul.hoqueshikder' } },
-            { name: 'Tanzina Nizam', batch: 18, section: 'B', photoUrl: 'Photos/nizam.jpg', email: 'tanzinanizamprema7@gmail.com', phone: '+8801690048026', social: { linkedin: '#', facebook: 'https://www.facebook.com/tanzinanizam.prema' } },
-            { name: 'Md Farhan Ishraq', batch: 18, section: 'C', photoUrl: 'Photos/farhan.jpg', email: 'farhanishraq2000@gmail.com', phone: '+8801976256917', social: { linkedin: '#', facebook: 'https://www.facebook.com/farhan1234.ishraq' } },
-            { name: 'Jobair Shakib', batch: 19, section: 'A', photoUrl: 'Photos/jobair.jpg', email: 'shakib.jobair@gmail.com', phone: '+8801861285698', social: { linkedin: '#', facebook: 'https://www.facebook.com/jobair123' } },
-            { name: 'Rokibul Hasan', batch: 19, section: 'B', photoUrl: 'Photos/rokin.jpg', email: 'rokibulhasan299@gmail.com', phone: '+8801533029528', social: { linkedin: '#', facebook: 'https://www.facebook.com/100009832081868' } },
-            { name: 'MD Saidul Islam', batch: 20, section: 'A', photoUrl: 'Photos/sayed.jpg', email: 'saidul2798@gmail.com', phone: '+8801621996285', social: { linkedin: '#', facebook: 'https://www.facebook.com/somapto.sayed' } },
-            { name: 'Md. Shajjat Hossain Nayim', batch: 21, section: 'A', photoUrl: 'Photos/sazzad.jpg', email: 'nayimsrick@gmail.com', phone: '+8801627767501', social: { linkedin: '#', facebook: 'https://www.facebook.com/shajjat325' } },
-            { name: 'Yeasin Hossain Rabby', batch: 21, section: 'A', photoUrl: 'Photos/rabbi.jpg', email: 'yeasinhossaincse21@gmail.com', phone: '+8801626365709', social: { linkedin: '#', facebook: 'https://www.facebook.com/rabbu.bhaaiyaa' } },
-            { name: 'Md. Mahfuzur Rahman Miraz', batch: 21, section: 'B', photoUrl: 'Photos/miraz.jpg', email: 'mirazcse108@gmail.com', phone: '+8801313596620', social: { linkedin: '#', facebook: 'https://www.facebook.com/miraz.mahfu' } },
-            { name: 'Joy Sarkar', batch: 22, section: 'A', photoUrl: 'Photos/joy.jpg', email: 'joysarkar4252@gmail.com', phone: '+8801556615142', social: { linkedin: '#', facebook: 'https://www.facebook.com/100005053995565' } },
-            { name: 'Md Sajjad Hossain', batch: 22, section: 'B', photoUrl: 'Photos/mirza.PNG', email: 'worksajjadhossain@gmail.com', phone: '+8801521370829', social: { linkedin: '#', facebook: 'https://www.facebook.com/bunnyoutlaw' } },
-            { name: 'Miraz Hossen Ibnsina', batch: 23, section: 'A', photoUrl: 'Photos/ibnsina.jpg', email: 'mirazibnsina@outlook.com', phone: '+8801869568606', social: { linkedin: '#', facebook: 'http://fb.com/mirazibnsina' } },
-            { name: ' Nur Alam', batch: 23, section: 'A', photoUrl: 'Photos/nuralam.jpg', email: 'nur.alam.developer@gmail.com', phone: '+8801846336008', social: { linkedin: 'https://www.linkedin.com/in/nur-alam0', facebook: 'https://www.facebook.com/share/16W3ypQoPo/?mibextid=wwXIfr' } },
-            { name: 'Bishwajit Aich', batch: 24, section: 'A', photoUrl:'Photos/bishwajit.jpg', email: 'aichbishwajit75@gmail.com', phone: '+8801850137754', social: { linkedin: '#', facebook: 'https://www.facebook.com/Bishwajit.Aich223' } },
-            { name: 'Fahmida Akter Shormi', batch: 25, section: 'A', photoUrl: 'Photos/sormi.jpg', email: 'ffahmidashormii@gmail.com', phone: '+8801642905250', social: { linkedin: '#', facebook: 'https://www.facebook.com/fahmida.shormi.39' } },
-            { name: 'Shrabon Biswas', batch: 26, section: 'A', photoUrl: 'Photos/srabon.jpg', email: 'shrabon276@gmail.com', phone: '+8801830325855', social: { linkedin: '#', facebook: 'https://www.facebook.com/shrabon.biswas.80362/' } },
-            { name: 'Sirajul Moni', batch: 27, section: 'A', photoUrl: 'Photos/monir.jpg', email: 'sirajulmonir423@gmail.com', phone: '+8801629028559', social: { linkedin: '#', facebook: 'https://www.facebook.com/sirajul.monir.127/about' } },
-            { name: 'Anayet Ullah Misbha', batch: 27, section: 'B', photoUrl: 'Photos/misbha.jpg', email: 'misbhaeducational@gmail.com', phone: '+8801881277194', social: { linkedin: '#', facebook: 'https://www.facebook.com/misbha1916/about' } },
-            { name: 'Md Mehedi Hasan Babu', batch: 28, section: 'A', photoUrl: 'Photos/babu.jpg', email: 'mehedihasanbabu0280@gamil.com', phone: '+8801334855784', social: { linkedin: '#', facebook: 'https://www.facebook.com/md.mehedi.hasan.babu.182170/about' } },
-            { name: 'Nusrat Tamanna', batch: 28, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'nusrat@pciu.edu.bd', phone: '+8801690096936', social: { linkedin: '#', facebook: 'https://www.facebook.com/nusrat.tamanna.132302#' } },
-            { name: 'Md Alamgir Hossain Asif', batch: 29, section: 'A', photoUrl:'Photos/asif.jpg', email: 'mdreazhosssainasif456@gmail.com', phone: '+8801630447382', social: { linkedin: 'https://linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=md-alamgir-hossain-asif-0006a3249', facebook: 'https://www.facebook.com/md.asif.chowdhury.455952#' } },
-            { name: 'Md Jawad Hassan', batch: 29, section: 'B', photoUrl: 'Photos/jawad.jpg', email: 'jawadpciu05@gmail.com', phone: '+8801973773627', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdjawad.haasan#' } },
-            { name: 'Umme Hafsa ', batch: 29, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'ummehafsa7878@gmail.com', phone: '+8801616992405', social: { linkedin: 'https://www.linkedin.com/in/umme-hafsa-142076264?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', facebook: 'https://www.facebook.com/umme.hafsa.881878?mibextid=ZbWKwL' } },
-            { name: 'Mohammed Arsalan Morshed', batch: 30, section: 'A', photoUrl: 'Photos/arsalan.jpg', email: 'mohammedarsalan01707@gmail.com', phone: '+8801308798196', social: { linkedin: 'https://www.linkedin.com/in/mohammed-arsalan-morshed-829a69195/', facebook: 'https://www.facebook.com/mohammed.arsalan.12979' } },
-            { name: 'Md Momtasir Mohtad Noman ', batch: 30, section: 'A', photoUrl: 'Photos/noman.jpg', email: 'contactmomtasir@gmail.com', phone: '+8801704615591', social: { linkedin: '#', facebook: 'https://www.facebook.com/100029542004617/' } },
-            { name: 'Naimul Islam Shanto', batch: 30, section: 'B', photoUrl: 'Photos/shanto.jpg', email: 'mdnishanto55@gmail.com', phone: '+8801703639871', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimulislamshanto460/about' } },
-            { name: 'Sadbin Karim Khan', batch: 30, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'shithikhan929@gmail.com', phone: '+8801752005160', social: { linkedin: '#', facebook: 'https://www.facebook.com/shithi.khan.156964' } },
-            { name: 'Mohammad Reza Uddin Tonmoy', batch: 31, section: 'A', photoUrl: 'Photos/tonmoy.jpg', email: 'mdrezauddin_cse31d@portcity.edu.bd', phone: '+8801639056199', social: { linkedin: 'https://www.linkedin.com/in/mohammad-reza-uddin-tonmoy-902094374?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', facebook: 'https://www.facebook.com/TonmoyR15/about' } },
-            { name: 'Abedul Alam ', batch: 31, section: 'A', photoUrl: 'Photos/abed.jpg', email: 'abedalamgf@gmail.com', phone: '+8801611817096', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1FCrs98MPH/' } },
-            { name: 'Sujit Chakraborty', batch: 31, section: 'B', photoUrl: 'Photos/sujit.jpg', email: 'Sujitchakraborty401@gmail.com', phone: '+8801997730529', social: { linkedin: '#', facebook: 'https://www.facebook.com/sujita.cakrabarti.2025/about' } },
-            { name: 'Ramish Jahra Binte Hossain ', batch: 31, section: 'C', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'ramishjahra@gmail.com', phone: '+8801839237765', social: { linkedin: '#', facebook: 'https://www.facebook.com/100068473560776/' } },
-            { name: 'Arpita Barua Pew', batch: 32, section: 'A', photoUrl: 'Photos/pew.jpg', email: 'arpitabaruapew@gmail.com', phone: '+8801310780182', social: { linkedin: '#', facebook: 'https://www.facebook.com/100089288349897/' } },
-            { name: 'Md Sakib Al Hasan', batch: 32, section: 'B', photoUrl: 'Photos/sakib.jpg', email: 'alhasan.sakib1404@gmail.com', phone: '+8801914444847', social: { linkedin: 'https://www.linkedin.com/in/md-sakib-al-hasan', facebook: 'https://www.facebook.com/alhasan.sakib6989' } },
-            { name: 'Abu Sayed ', batch: 32, section: 'B', photoUrl: 'Photos/opu.jpg', email: 'gaziopu172@gmail.com', phone: '+8801313341435', social: { linkedin: '#', facebook: 'https://www.facebook.com/abu.sayed.288397' } },
-            { name: 'Farhana Akter  ', batch: 32, section: 'B', photoUrl: 'Photos/farhana.jpg', email: 'farhanaakter00a@gmail.com', phone: '+8801540023122', social: { linkedin: '#', facebook: 'https://www.facebook.com/farhana.akter.618739' } },
-            { name: 'Syeda Dillir Hossain Binti', batch: 33, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'dillirhossainbinti@gmail.com', phone: '+8801834001202', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1M65ws4ZK9/' } },
-            { name: 'Sawda Akter Sinthia', batch: 33, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 's@pciu.edu.bd', phone: '+8801971593626', social: { linkedin: '#', facebook: 'https://www.facebook.com/a' } },
-            { name: 'Mosammet Nafisa Sultana ', batch: 33, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'nafisasultana566@gmail.com', phone: '+8801845305677', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/19yu6F6BjJ/' } },
-            { name: 'Tahsin Sultana Tanisha', batch: 33, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'tstanisha04@gmail.com', phone: '+8801824261177', social: { linkedin: '#', facebook: 'https://www.facebook.com/t.s.tanisha.04?mibextid=ZbWKwL' } },
-            { name: 'Jannatul Jahan Ananna ', batch: 33, section: 'C', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'anannaj@870gmail. com', phone: '+8801722087480', social: { linkedin: '#', facebook: 'https://www.facebook.com/jannatul.jahan.ananna' } },
-            { name: 'Saidul Karim Ayas', batch: 33, section: 'C', photoUrl: 'Photos/ayas.jpg', email: 'saidulayas@gmail.com', phone: '+8801878584905', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/17GoXQmj1g/' } },
-            { name: 'HM Majharul Alam', batch: 34, section: 'A', photoUrl: 'Photos/.jpg', email: 'majharul@pciu.edu.bd', phone: '+8801602838790', social: { linkedin: '#', facebook: 'https://www.facebook.com/prottoy.alam.10/about' } },
-            { name: 'Fardil Khan', batch: 34, section: 'B', photoUrl: 'Photos/fardil.jpg', email: 'fardil1488@gmail.com', phone: '+8801880616172', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1JwpjmZBJe/' } },
-            { name: 'Tyaba Akter ', batch: 35, section: 'A', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'tyabaar111@gmail.com', phone: '+8801827939111', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1A1BihPCvS/' } },
-            { name: 'Fariha Jahan', batch: 35, section: 'B', photoUrl: 'https://placehold.co/400x400/e2e8f0/333333?text=CR', email: 'farihajahan487@gmail.com', phone: '+8801880028552', social: { linkedin: '#', facebook: 'https://www.facebook.com/faariha21' } },
+            // Day Shift
+            { name: 'Md. Masud Rana Ashik', batch: 8, section: 'A', shift: 'Day', photoUrl: 'Photos/rana.jpg', email: 'rana.cse.pciu@outlook.com', phone: '+8801618669641', social: { linkedin: '#', facebook: 'https://www.facebook.com/mrashik000' } },
+            { name: 'Md. Ahasan Habib', batch: 9, section: 'A', shift: 'Day', photoUrl: 'Photos/habib.jpg', email: 'habibcse009@gmail.com', phone: '+8801405558831', social: { linkedin: '#', facebook: 'https://www.facebook.com/habibcse009' } },
+            { name: 'Md. Amir Hossain Jowel', batch: 10, section: 'A', shift: 'Day', photoUrl:'Photos/jowel.jpg', email: 'mdamirhossainjowel@gmail.com', phone: '+8619038107246', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdamirhossainjowel' } },
+            { name: 'Md. Sabbir Bin Anwar', batch: 11, section: 'A', shift: 'Day', photoUrl: 'Photos/anwar.jpg', email: 'sabbir.web21@gmail.com', phone: '+8801628266733', social: { linkedin: '#', facebook: 'https://www.facebook.com/sabbir.binanwar' } },
+            { name: 'Habib R. Rabby', batch: 12, section: 'A', shift: 'Day', photoUrl: 'Photos/rabbi.jpg', email: 'habib.r.rabby@gmail.com', phone: '+15715919838', social: { linkedin: '#', facebook: 'https://www.facebook.com/Habib.R.Rabby' } },
+            { name: 'Md. Tusher', batch: 12, section: 'B', shift: 'Day', photoUrl: 'Photos/tusher.jpg', email: 'shariftushercse12@gmail.com', phone: '+8801638019370', social: { linkedin: '#', facebook: 'https://www.facebook.com/sharifhtusher70' } },
+            { name: 'M.A. Nabil', batch: 13, section: 'A', shift: 'Day', photoUrl: 'Photos/nabil.jpg', email: 'nabilgcc15@gmail.com', phone: '+8801954196150', social: { linkedin: '#', facebook: 'https://www.facebook.com/100007905670114' } },
+            { name: 'Md. Jahed Hossain Miraz', batch: 13, section: 'B', shift: 'Day', photoUrl: 'Photos/jahed.jpg', email: 'jahedmirazz@gmail.com', phone: '+8801517148500', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdjahedhossain.mirazz' } },
+            { name: 'Naimur Rahman Nidrit', batch: 14, section: 'A', shift: 'Day', photoUrl: 'Photos/nidrit.jpg', email: 'naimur404cse@gmail.com', phone: '+8801309092748', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimur.nidrit' } },
+            { name: 'Mou Chowdhury', batch: 15, section: 'A', shift: 'Day', photoUrl: 'Photos/mou.jpg', email: 'moumitachy21@gmail.com', phone: '+8801627860861', social: { linkedin: '#', facebook: 'https://www.facebook.com/mou.chowdhury.794' } },
+            { name: 'Jahedul Islam', batch: 15, section: 'A', shift: 'Day', photoUrl: 'Photos/jahedul.jpg', email: 'jahedulislam928@gmail.com', phone: '+8801845684741', social: { linkedin: '#', facebook: 'https://www.facebook.com/Mr.JNjahed' } },
+            { name: 'Shabbir Ahmed Nibir', batch: 15, section: 'B', shift: 'Day', photoUrl: 'Photos/nibir.jpg', email: 'shabbirahmednibir.bd@gmail.com', phone: '+8801830556817', social: { linkedin: '#', facebook: 'https://www.facebook.com/shabbir.ahmed.nibir.13' } },
+            { name: 'Shajahan Sujon', batch: 17, section: 'A', shift: 'Day', photoUrl: 'Photos/sujon.jpg', email: 'shajahansujon15@gmail.com', phone: '+8801627185575', social: { linkedin: '#', facebook: 'https://www.facebook.com/100008897533541' } },
+            { name: 'Md. Ezazul Hoque', batch: 18, section: 'A', shift: 'Day', photoUrl: 'Photos/ezazul.jpg', email: 'ezazulhoqueaddress@gmail.com', phone: '+8801997265713', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdezazul.hoqueshikder' } },
+            { name: 'Tanzina Nizam', batch: 18, section: 'B', shift: 'Day', photoUrl: 'Photos/nizam.jpg', email: 'tanzinanizamprema7@gmail.com', phone: '+8801690048026', social: { linkedin: '#', facebook: 'https://www.facebook.com/tanzinanizam.prema' } },
+            { name: 'Md Farhan Ishraq', batch: 18, section: 'C', shift: 'Day', photoUrl: 'Photos/farhan.jpg', email: 'farhanishraq2000@gmail.com', phone: '+8801976256917', social: { linkedin: '#', facebook: 'https://www.facebook.com/farhan1234.ishraq' } },
+            { name: 'Jobair Shakib', batch: 19, section: 'A', shift: 'Day', photoUrl: 'Photos/jobair.jpg', email: 'shakib.jobair@gmail.com', phone: '+8801861285698', social: { linkedin: '#', facebook: 'https://www.facebook.com/jobair123' } },
+            { name: 'Rokibul Hasan', batch: 19, section: 'B', shift: 'Day', photoUrl: 'Photos/rokin.jpg', email: 'rokibulhasan299@gmail.com', phone: '+8801533029528', social: { linkedin: '#', facebook: 'https://www.facebook.com/100009832081868' } },
+            { name: 'MD Saidul Islam', batch: 20, section: 'A', shift: 'Day', photoUrl: 'Photos/sayed.jpg', email: 'saidul2798@gmail.com', phone: '+8801621996285', social: { linkedin: '#', facebook: 'https://www.facebook.com/somapto.sayed' } },
+            { name: 'Md. Shajjat Hossain Nayim', batch: 21, section: 'A', shift: 'Day', photoUrl: 'Photos/sazzad.jpg', email: 'nayimsrick@gmail.com', phone: '+8801627767501', social: { linkedin: '#', facebook: 'https://www.facebook.com/shajjat325' } },
+            { name: 'Yeasin Hossain Rabby', batch: 21, section: 'A', shift: 'Day', photoUrl: 'Photos/rabbi.jpg', email: 'yeasinhossaincse21@gmail.com', phone: '+8801626365709', social: { linkedin: '#', facebook: 'https://www.facebook.com/rabbu.bhaaiyaa' } },
+            { name: 'Md. Mahfuzur Rahman Miraz', batch: 21, section: 'B', shift: 'Day', photoUrl: 'Photos/miraz.jpg', email: 'mirazcse108@gmail.com', phone: '+8801313596620', social: { linkedin: '#', facebook: 'https://www.facebook.com/miraz.mahfu' } },
+            { name: 'Joy Sarkar', batch: 22, section: 'A', shift: 'Day', photoUrl: 'Photos/joy.jpg', email: 'joysarkar4252@gmail.com', phone: '+8801556615142', social: { linkedin: '#', facebook: 'https://www.facebook.com/100005053995565' } },
+            { name: 'Md Sajjad Hossain', batch: 22, section: 'B', shift: 'Day', photoUrl: 'Photos/mirza.PNG', email: 'worksajjadhossain@gmail.com', phone: '+8801521370829', social: { linkedin: '#', facebook: 'https://www.facebook.com/bunnyoutlaw' } },
+            { name: 'Miraz Hossen Ibnsina', batch: 23, section: 'A', shift: 'Day', photoUrl: 'Photos/ibnsina.jpg', email: 'mirazibnsina@outlook.com', phone: '+8801869568606', social: { linkedin: '#', facebook: 'http://fb.com/mirazibnsina' } },
+            { name: ' Nur Alam', batch: 23, section: 'A', shift: 'Day', photoUrl: 'Photos/nuralam.jpg', email: 'nur.alam.developer@gmail.com', phone: '+8801846336008', social: { linkedin: 'https://www.linkedin.com/in/nur-alam0', facebook: 'https://www.facebook.com/share/16W3ypQoPo/?mibextid=wwXIfr' } },
+            { name: 'Bishwajit Aich', batch: 24, section: 'A', shift: 'Day', photoUrl:'Photos/bishwajit.jpg', email: 'aichbishwajit75@gmail.com', phone: '+8801850137754', social: { linkedin: '#', facebook: 'https://www.facebook.com/Bishwajit.Aich223' } },
+            { name: 'Fahmida Akter Shormi', batch: 25, section: 'A', shift: 'Day', photoUrl: 'Photos/sormi.jpg', email: 'ffahmidashormii@gmail.com', phone: '+8801642905250', social: { linkedin: '#', facebook: 'https://www.facebook.com/fahmida.shormi.39' } },
+            { name: 'Shrabon Biswas', batch: 26, section: 'A', shift: 'Day', photoUrl: 'Photos/srabon.jpg', email: 'shrabon276@gmail.com', phone: '+8801830325855', social: { linkedin: '#', facebook: 'https://www.facebook.com/shrabon.biswas.80362/' } },
+            { name: 'Sirajul Moni', batch: 27, section: 'A', shift: 'Day', photoUrl: 'Photos/monir.jpg', email: 'sirajulmonir423@gmail.com', phone: '+8801629028559', social: { linkedin: '#', facebook: 'https://www.facebook.com/sirajul.monir.127/about' } },
+            { name: 'Anayet Ullah Misbha', batch: 27, section: 'B', shift: 'Day', photoUrl: 'Photos/misbha.jpg', email: 'misbhaeducational@gmail.com', phone: '+8801881277194', social: { linkedin: '#', facebook: 'https://www.facebook.com/misbha1916/about' } },
+            { name: 'Md Mehedi Hasan Babu', batch: 28, section: 'A', shift: 'Day', photoUrl: 'Photos/babu.jpg', email: 'mehedihasanbabu0280@gamil.com', phone: '+8801334855784', social: { linkedin: '#', facebook: 'https://www.facebook.com/md.mehedi.hasan.babu.182170/about' } },
+            { name: 'Nusrat Tamanna', batch: 28, section: 'B', shift: 'Day', photoUrl: '', email: 'nusrat@pciu.edu.bd', phone: '+8801690096936', social: { linkedin: '#', facebook: 'https://www.facebook.com/nusrat.tamanna.132302#' } },
+            { name: 'Md Alamgir Hossain Asif', batch: 29, section: 'A', shift: 'Day', photoUrl:'Photos/asif.jpg', email: 'mdreazhosssainasif456@gmail.com', phone: '+8801630447382', social: { linkedin: 'https://linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=md-alamgir-hossain-asif-0006a3249', facebook: 'https://www.facebook.com/md.asif.chowdhury.455952#' } },
+            { name: 'Md Jawad Hassan', batch: 29, section: 'B', shift: 'Day', photoUrl: 'Photos/jawad.jpg', email: 'jawadpciu05@gmail.com', phone: '+8801973773627', social: { linkedin: '#', facebook: 'https://www.facebook.com/mdjawad.haasan#' } },
+            { name: 'Umme Hafsa ', batch: 29, section: 'B', shift: 'Day', photoUrl: '', email: 'ummehafsa7878@gmail.com', phone: '+8801616992405', social: { linkedin: 'https://www.linkedin.com/in/umme-hafsa-142076264?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', facebook: 'https://www.facebook.com/umme.hafsa.881878?mibextid=ZbWKwL' } },
+            { name: 'Mohammed Arsalan Morshed', batch: 30, section: 'A', shift: 'Day', photoUrl: 'Photos/arsalan.jpg', email: 'mohammedarsalan01707@gmail.com', phone: '+8801308798196', social: { linkedin: 'https://www.linkedin.com/in/mohammed-arsalan-morshed-829a69195/', facebook: 'https://www.facebook.com/mohammed.arsalan.12979' } },
+            { name: 'Md Momtasir Mohtad Noman ', batch: 30, section: 'A', shift: 'Day', photoUrl: 'Photos/noman.jpg', email: 'contactmomtasir@gmail.com', phone: '+8801704615591', social: { linkedin: '#', facebook: 'https://www.facebook.com/100029542004617/' } },
+            { name: 'Naimul Islam Shanto', batch: 30, section: 'B', shift: 'Day', photoUrl: 'Photos/shanto.jpg', email: 'mdnishanto55@gmail.com', phone: '+8801703639871', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimulislamshanto460/about' } },
+            { name: 'Sadbin Karim Khan', batch: 30, section: 'B', shift: 'Day', photoUrl: '', email: 'shithikhan929@gmail.com', phone: '+8801752005160', social: { linkedin: '#', facebook: 'https://www.facebook.com/shithi.khan.156964' } },
+            { name: 'Mohammad Reza Uddin Tonmoy', batch: 31, section: 'A', shift: 'Day', photoUrl: 'Photos/tonmoy.jpg', email: 'mdrezauddin_cse31d@portcity.edu.bd', phone: '+8801639056199', social: { linkedin: 'https://www.linkedin.com/in/mohammad-reza-uddin-tonmoy-902094374?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', facebook: 'https://www.facebook.com/TonmoyR15/about' } },
+            { name: 'Abedul Alam ', batch: 31, section: 'A', shift: 'Day', photoUrl: 'Photos/abed.jpg', email: 'abedalamgf@gmail.com', phone: '+8801611817096', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1FCrs98MPH/' } },
+            { name: 'Sujit Chakraborty', batch: 31, section: 'B', shift: 'Day', photoUrl: 'Photos/sujit.jpg', email: 'Sujitchakraborty401@gmail.com', phone: '+8801997730529', social: { linkedin: '#', facebook: 'https://www.facebook.com/sujita.cakrabarti.2025/about' } },
+            { name: 'Ramish Jahra Binte Hossain ', batch: 31, section: 'C', shift: 'Day', photoUrl: '', email: 'ramishjahra@gmail.com', phone: '+8801839237765', social: { linkedin: '#', facebook: 'https://www.facebook.com/100068473560776/' } },
+            { name: 'Arpita Barua Pew', batch: 32, section: 'A', shift: 'Day', photoUrl: 'Photos/pew.jpg', email: 'arpitabaruapew@gmail.com', phone: '+8801310780182', social: { linkedin: '#', facebook: 'https://www.facebook.com/100089288349897/' } },
+            { name: 'Md Sakib Al Hasan', batch: 32, section: 'B', shift: 'Day', photoUrl: 'Photos/sakib.jpg', email: 'alhasan.sakib1404@gmail.com', phone: '+8801914444847', social: { linkedin: 'https://www.linkedin.com/in/md-sakib-al-hasan', facebook: 'https://www.facebook.com/alhasan.sakib6989' } },
+            { name: 'Abu Sayed ', batch: 32, section: 'B', shift: 'Day', photoUrl: 'Photos/opu.jpg', email: 'gaziopu172@gmail.com', phone: '+8801313341435', social: { linkedin: '#', facebook: 'https://www.facebook.com/abu.sayed.288397' } },
+            { name: 'Farhana Akter', batch: 32, section: 'B', shift: 'Day', photoUrl: 'Photos/farhana.jpg', email: 'farhanaakter00a@gmail.com', phone: '+8801540023122', social: { linkedin: '#', facebook: 'https://www.facebook.com/farhana.akter.618739' } },
+            { name: 'Syeda Dillir Hossain Binti', batch: 33, section: 'A', shift: 'Day', photoUrl: '', email: 'dillirhossainbinti@gmail.com', phone: '+8801834001202', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1M65ws4ZK9/' } },
+            { name: 'Sawda Akter Sinthia', batch: 33, section: 'A', shift: 'Day', photoUrl: 'Photos/33-a.jpg', email: 'cynthiakhan76@gmail.com', phone: '01630271303', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
+            { name: 'Mosammet Nafisa Sultana ', batch: 33, section: 'B', shift: 'Day', photoUrl: '', email: 'nafisasultana566@gmail.com', phone: '+8801845305677', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/19yu6F6BjJ/' } },
+            { name: 'Tahsin Sultana Tanisha', batch: 33, section: 'B', shift: 'Day', photoUrl: '', email: 'tstanisha04@gmail.com', phone: '+8801824261177', social: { linkedin: '#', facebook: 'https://www.facebook.com/t.s.tanisha.04?mibextid=ZbWKwL' } },
+            { name: 'Jannatul Jahan Ananna ', batch: 33, section: 'C', shift: 'Day', photoUrl: '', email: 'anannaj@870gmail. com', phone: '+8801722087480', social: { linkedin: '#', facebook: 'https://www.facebook.com/jannatul.jahan.ananna' } },
+            { name: 'Saidul Karim Ayas', batch: 33, section: 'C', shift: 'Day', photoUrl: 'Photos/ayas.jpg', email: 'saidulayas@gmail.com', phone: '+8801878584905', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/17GoXQmj1g/' } },
+            { name: 'Rimon Chowdhury', batch: 34, section: 'A', shift: 'Day', photoUrl: 'Photos/34-a.jpeg', email: 'rimonchy.bgd@gmail.com', phone: '01316532326', social: { linkedin: '#', facebook: 'https://www.facebook.com/RimonChowdhury2.0' } },
+            { name: 'Shahria Alam', batch: 34, section: 'A', shift: 'Day', photoUrl: 'Photos/34-a2.jpeg', email: 'shahriaalam95@gmail.com', phone: '01885074323', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Fardil Khan', batch: 34, section: 'B', shift: 'Day', photoUrl: 'Photos/fardil.jpg', email: 'fardil1488@gmail.com', phone: '+8801880616172', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1JwpjmZBJe/' } },
+            { name: 'Tyaba Akter ', batch: 35, section: 'A', shift: 'Day', photoUrl: '', email: 'tyabaar111@gmail.com', phone: '+8801827939111', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1A1BihPCvS/' } },
+            { name: 'Fariha Jahan', batch: 35, section: 'B', shift: 'Day', photoUrl: '', email: 'farihajahan487@gmail.com', phone: '+8801880028552', social: { linkedin: '#', facebook: 'https://www.facebook.com/faariha21' } },
+            
+            // Evening Shift
+            { name: 'Ahad', batch: 29, section: 'A', shift: 'Evening', photoUrl: '', email: 'Not Available', phone: '+8801642762700', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Shahidul Adham Musrur', batch: 30, section: 'A', shift: 'Evening', photoUrl: '', email: 'Not Available', phone: '01758968282', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Mison Dev', batch: 31, section: 'A', shift: 'Evening', photoUrl: '', email: 'Not Available', phone: '01868304068', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Imran Hossain', batch: 32, section: 'A', shift: 'Evening', photoUrl: '', email: 'mdimranhossain_cse32b@portcity.edu.bd', phone: '01674168278', social: { linkedin: 'https://www.linkedin.com/in/rajputroimran', facebook: 'https://www.facebook.com/imranctgbd' } },
+            { name: 'Kowshik Sen', batch: 33, section: 'A', shift: 'Evening', photoUrl: '', email: 'Not Available', phone: '+880 1880-901958', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Mehraj', batch: 34, section: 'A', shift: 'Evening', photoUrl: '', email: 'Not Available', phone: '01868946744', social: { linkedin: '#', facebook: '#' } },
         ];
 
-        // --- DOM Elements ---
-        const crContainer = document.getElementById('cr-container');
-        const batchFilter = document.getElementById('batch-filter');
-        const sectionFilter = document.getElementById('section-filter');
-        const noResults = document.getElementById('no-results');
-        const printButton = document.getElementById('print-button');
-        const printArea = document.getElementById('print-area');
+        // --- DOM ELEMENTS ---
+        const dom = {
+            container: document.getElementById('cr-container'),
+            filters: {
+                batch: document.getElementById('batch-filter'),
+                section: document.getElementById('section-filter'),
+                shift: document.getElementById('shift-filter')
+            },
+            noResults: document.getElementById('no-results'),
+            printBtn: document.getElementById('print-button'),
+            printArea: document.getElementById('print-area')
+        };
 
-        // --- FUNCTIONS ---
-        
-        /**
-         * Renders the CR profile cards to the page.
-         */
-        function displayCRs(crs) {
-            crContainer.innerHTML = ''; 
-            noResults.classList.toggle('hidden', crs.length > 0);
+        // --- FALLBACK IMAGE ---
+        // Generic avatar for missing photos
+        const fallbackImage = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
 
-            crs.forEach(cr => {
-                const card = `
-                <div class="card bg-base-100 shadow-xl flex flex-col transform hover:-translate-y-1 transition-transform duration-300">
-                    <figure class="h-60">
-                        <img src="${cr.photoUrl}" alt="Photo of ${cr.name}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x400/e2e8f0/333333?text=Image+Not+Found';"/>
-                    </figure>
-                    <div class="card-body p-4 flex-1 flex flex-col items-center text-center">
-                        <div class="flex-grow">
-                            <h2 class="card-title">${cr.name}</h2>
-                            <div class="flex justify-center gap-2 my-2">
-                                <span class="badge badge-primary badge-outline">Batch: ${cr.batch}</span>
-                                <span class="badge badge-secondary badge-outline">Section: DAY-${cr.section}</span>
+        // --- CORE FUNCTIONS ---
+
+        function renderCards(data) {
+            dom.container.innerHTML = '';
+            
+            if (data.length === 0) {
+                dom.noResults.classList.remove('hidden');
+                dom.noResults.classList.add('flex');
+            } else {
+                dom.noResults.classList.add('hidden');
+                dom.noResults.classList.remove('flex');
+            }
+
+            data.forEach((cr, index) => {
+                // Check if links exist, otherwise use default homepages
+                const fbLink = (cr.social.facebook && cr.social.facebook !== '#') ? cr.social.facebook : 'https://www.facebook.com';
+                const liLink = (cr.social.linkedin && cr.social.linkedin !== '#') ? cr.social.linkedin : 'https://www.linkedin.com';
+                
+                // Styling based on Shift
+                const badgeColor = cr.shift === 'Evening' 
+                    ? 'bg-amber-100 text-amber-700 border-amber-200' 
+                    : 'bg-blue-100 text-blue-700 border-blue-200';
+
+                // Handle Image Logic safely
+                let displayImage = cr.photoUrl;
+                if(!displayImage || displayImage.trim() === '') displayImage = fallbackImage;
+
+                const delay = index * 50; // Staggered animation
+
+                const cardHTML = `
+                <div class="cr-card bg-white rounded-3xl overflow-hidden border border-slate-100 flex flex-col h-full animate-fade-in" style="animation-delay: ${delay}ms">
+                    <div class="h-64 overflow-hidden relative group">
+                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
+                            <span class="text-white font-semibold tracking-wide transform translate-y-4 group-hover:translate-y-0 transition-transform">View Details</span>
+                        </div>
+                        <img 
+                            src="${displayImage}" 
+                            alt="${cr.name}" 
+                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            onerror="this.onerror=null; this.src='${fallbackImage}';"
+                        />
+                    </div>
+                    
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex-grow text-center">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 leading-tight">${cr.name}</h3>
+                            
+                            <div class="flex flex-wrap justify-center gap-2 mb-6">
+                                <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                                    Batch ${cr.batch}
+                                </span>
+                                <span class="px-2.5 py-1 rounded-md text-xs font-bold ${badgeColor} border uppercase tracking-wide">
+                                    ${(cr.shift || 'Day').substring(0,3)} - ${cr.section}
+                                </span>
                             </div>
-                            <div class="mt-4 text-sm text-gray-600 space-y-1">
-                                <p class="break-words">${cr.email}</p>
-                                <p>${cr.phone}</p>
+
+                            <div class="space-y-3 w-full text-left">
+                                <a href="mailto:${cr.email}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors group/link">
+                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-xs group-hover/link:bg-blue-500 group-hover/link:text-white transition-all">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </div>
+                                    <span class="text-sm text-slate-500 truncate" title="${cr.email}">${cr.email}</span>
+                                </a>
+                                <a href="tel:${cr.phone}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors group/link">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-xs group-hover/link:bg-emerald-500 group-hover/link:text-white transition-all">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <span class="text-sm text-slate-500 truncate">${cr.phone}</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="card-actions mt-4 w-full justify-center">
-                            <a href="${cr.social.facebook}" target="_blank" class="btn btn-sm btn-outline btn-info flex-1"><i class="fab fa-facebook-f"></i>-   Facebook</a>
-                            <a href="${cr.social.linkedin}" target="_blank" class="btn btn-sm btn-outline btn-accent flex-1"><i class="fab fa-linkedin-in"></i>- LinkedIn</a>
+
+                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-center gap-3">
+                            <a href="${fbLink}" target="_blank" class="w-9 h-9 rounded-full bg-slate-50 text-slate-400 hover:bg-[#1877F2] hover:text-white flex items-center justify-center transition-all duration-300">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="${liLink}" target="_blank" class="w-9 h-9 rounded-full bg-slate-50 text-slate-400 hover:bg-[#0077b5] hover:text-white flex items-center justify-center transition-all duration-300">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
                         </div>
                     </div>
+                </div>`;
+                
+                dom.container.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
+
+        function initFilters() {
+            // Unique Batches
+            const batches = [...new Set(crData.map(d => d.batch))].sort((a,b) => a-b);
+            batches.forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b;
+                opt.textContent = `Batch ${b}`;
+                dom.filters.batch.appendChild(opt);
+            });
+        }
+
+        function applyFilters() {
+            const batchVal = dom.filters.batch.value;
+            const sectionVal = dom.filters.section.value;
+            const shiftVal = dom.filters.shift.value;
+
+            const filtered = crData.filter(item => {
+                const itemShift = item.shift || 'Day';
+                return (batchVal === 'all' || item.batch == batchVal) &&
+                       (sectionVal === 'all' || item.section === sectionVal) &&
+                       (shiftVal === 'all' || itemShift === shiftVal);
+            });
+
+            renderCards(filtered);
+        }
+
+        function handlePrint() {
+            // Get current filtered data for print
+            const batchVal = dom.filters.batch.value;
+            const sectionVal = dom.filters.section.value;
+            const shiftVal = dom.filters.shift.value;
+
+            const printData = crData.filter(item => {
+                const itemShift = item.shift || 'Day';
+                return (batchVal === 'all' || item.batch == batchVal) &&
+                       (sectionVal === 'all' || item.section === sectionVal) &&
+                       (shiftVal === 'all' || itemShift === shiftVal);
+            });
+
+            let tableHTML = `
+                <div style="text-align:center; margin-bottom: 2rem;">
+                    <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">PCIU CSE Representatives</h2>
+                    <p style="color: #64748b; font-size: 14px;">Generated on ${new Date().toLocaleDateString()}</p>
                 </div>
-                `;
-                crContainer.innerHTML += card;
-            });
-        }
-        
-        /**
-         * Populates the batch filter dropdown with unique batches from the data.
-         */
-        function populateBatchFilter() {
-            const batches = [...new Set(crData.map(cr => cr.batch))];
-            batches.sort((a, b) => a - b);
-            batches.forEach(batch => {
-                const option = document.createElement('option');
-                option.value = batch;
-                option.textContent = `Batch ${batch}`;
-                batchFilter.appendChild(option);
-            });
-        }
-
-        /**
-         * Filters CR data based on selected batch and section, then re-renders the cards.
-         */
-        function filterCRs() {
-            const selectedBatch = batchFilter.value;
-            const selectedSection = sectionFilter.value;
-
-            const filteredCRs = crData.filter(cr => {
-                const batchMatch = selectedBatch === 'all' || cr.batch == selectedBatch;
-                const sectionMatch = selectedSection === 'all' || cr.section === selectedSection;
-                return batchMatch && sectionMatch;
-            });
-
-            displayCRs(filteredCRs);
-        }
-
-        /**
-         * Prepares a clean, table-based view of the CR data for printing.
-         */
-        function prepareForPrinting() {
-            const selectedBatch = batchFilter.value;
-            const selectedSection = sectionFilter.value;
-
-            const filteredCRs = crData.filter(cr => {
-                const batchMatch = selectedBatch === 'all' || cr.batch == selectedBatch;
-                const sectionMatch = selectedSection === 'all' || cr.section === selectedSection;
-                return batchMatch && sectionMatch;
-            });
-
-            let printHTML = `
-                <h1 style="text-align: center; margin-bottom: 20px; font-size: 16pt;">PCIU CSE Class Representatives List</h1>
                 <table id="print-table">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Batch</th>
-                            <th>Section</th>
+                            <th>Section/Shift</th>
+                            <th>Phone</th>
                             <th>Email</th>
-                            <th>Mobile Number</th>
                         </tr>
                     </thead>
                     <tbody>
             `;
 
-            filteredCRs.forEach(cr => {
-                printHTML += `
+            printData.forEach(p => {
+                tableHTML += `
                     <tr>
-                        <td>${cr.name}</td>
-                        <td>${cr.batch}</td>
-                        <td>DAY-${cr.section}</td>
-                        <td>${cr.email}</td>
-                        <td>${cr.phone}</td>
+                        <td><strong>${p.name}</strong></td>
+                        <td>${p.batch}</td>
+                        <td>${(p.shift||'Day').substring(0,3)} - ${p.section}</td>
+                        <td>${p.phone}</td>
+                        <td>${p.email}</td>
                     </tr>
                 `;
             });
 
-            printHTML += `
-                    </tbody>
-                </table>
-            `;
-            
-            printArea.innerHTML = printHTML;
+            tableHTML += `</tbody></table>`;
+            dom.printArea.innerHTML = tableHTML;
+            window.print();
         }
 
+        // --- EVENT LISTENERS ---
+        Object.values(dom.filters).forEach(f => f.addEventListener('change', applyFilters));
+        dom.printBtn.addEventListener('click', handlePrint);
 
-        // --- EVENT LISTENERS & INITIALIZATION ---
-        
-        // Listen for changes on the filter dropdowns
-        batchFilter.addEventListener('change', filterCRs);
-        sectionFilter.addEventListener('change', filterCRs);
-
-        // Listen for clicks on the print button
-        printButton.addEventListener('click', () => {
-            prepareForPrinting(); // Prepare the clean data table
-            window.print();       // Trigger the browser's print dialog
-        });
-
-        // Initial page setup
-        populateBatchFilter();
-        displayCRs(crData);
+        // --- INIT ---
+        initFilters();
+        renderCards(crData);
 
     </script>
 </body>
