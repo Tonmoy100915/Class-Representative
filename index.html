@@ -7,6 +7,8 @@
     
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.6/dist/full.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,17 +30,14 @@
                         accent: { DEFAULT: '#0ea5e9' }
                     },
                     animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'float': 'float 8s ease-in-out infinite',
+                        'float-delayed': 'float 8s ease-in-out 4s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                            '0%, 100%': { transform: 'translateY(0) scale(1)' },
+                            '50%': { transform: 'translateY(-25px) scale(1.05)' },
                         }
                     }
                 }
@@ -49,7 +48,7 @@
     <style>
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: #f1f5f9;
+            background-color: #f8fafc;
             color: #1e293b;
             overflow-x: hidden;
         }
@@ -66,24 +65,49 @@
         /* Glassmorphism Classes */
         .glass-panel {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
 
         .nav-glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        /* Card Hover Effects */
+        /* Modern Card Styles */
         .cr-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.95);
         }
+        
         .cr-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.15);
+            border-color: rgba(37, 99, 235, 0.3);
+            z-index: 10;
+        }
+
+        .cr-image-container {
+            overflow: hidden;
+        }
+        
+        .cr-image-container img {
+            transition: transform 0.6s ease;
+        }
+        
+        .cr-card:hover .cr-image-container img {
+            transform: scale(1.1);
+        }
+
+        /* Floating Animation Background */
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: 0;
+            opacity: 0.6;
         }
 
         /* Print Styles */
@@ -95,75 +119,108 @@
             #print-table th, #print-table td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; }
             #print-table th { background-color: #f1f5f9; color: #0f172a; }
         }
+
+        /* Scroll to top button */
+        #scrollTopBtn {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        #scrollTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col">
+<body class="bg-slate-50 min-h-screen flex flex-col relative">
 
-    <nav class="navbar nav-glass sticky top-0 z-50 px-4 lg:px-12 h-20 no-print">
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none no-print">
+        <div class="blob bg-blue-200 w-96 h-96 rounded-full top-0 left-0 -translate-x-1/2 -translate-y-1/2 animate-float"></div>
+        <div class="blob bg-purple-200 w-96 h-96 rounded-full bottom-0 right-0 translate-x-1/2 translate-y-1/2 animate-float-delayed"></div>
+        <div class="blob bg-cyan-100 w-64 h-64 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse-slow"></div>
+    </div>
+
+    <button id="scrollTopBtn" onclick="window.scrollTo(0,0)" class="fixed bottom-8 right-8 z-50 w-12 h-12 bg-primary-DEFAULT hover:bg-slate-800 text-white rounded-full shadow-xl flex items-center justify-center transition-colors no-print">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <nav class="navbar nav-glass sticky top-0 z-50 px-4 lg:px-12 h-20 no-print transition-all duration-300">
         <div class="flex-1">
             <a href="#" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-DEFAULT to-accent flex items-center justify-center text-white shadow-lg shadow-primary-DEFAULT/30 group-hover:scale-105 transition-transform">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-primary-DEFAULT to-accent flex items-center justify-center text-white shadow-lg shadow-primary-DEFAULT/30 group-hover:rotate-12 transition-transform duration-300">
                     <i class="fa-solid fa-graduation-cap text-lg"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-slate-800 tracking-tight leading-none">PCIU <span class="text-primary-DEFAULT">Connect</span></h1>
+                    <h1 class="text-xl font-bold text-slate-800 tracking-tight leading-none group-hover:text-primary-DEFAULT transition-colors">PCIU <span class="text-primary-DEFAULT">Connect</span></h1>
                     <p class="text-[10px] font-medium text-slate-400 uppercase tracking-widest">CSE Department</p>
                 </div>
             </a>
         </div>
         <div class="hidden md:flex gap-6">
-            <a href="index.html" class="text-sm font-semibold text-slate-500 hover:text-primary-DEFAULT transition-colors">Home</a>
-            <a href="#notice-section" class="text-sm font-semibold text-slate-500 hover:text-primary-DEFAULT transition-colors">Notices</a>
+            <a href="index.html" class="text-sm font-semibold text-slate-500 hover:text-primary-DEFAULT transition-colors py-2 relative group">
+                Home
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-DEFAULT transition-all duration-300 group-hover:w-full"></span>
+            </a>
+            <a href="#notice-section" class="text-sm font-semibold text-slate-500 hover:text-primary-DEFAULT transition-colors py-2 relative group">
+                Notices
+                <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-DEFAULT transition-all duration-300 group-hover:w-full"></span>
+            </a>
         </div>
     </nav>
 
-    <header class="relative bg-slate-900 overflow-hidden no-print py-20 lg:py-28">
-        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-DEFAULT rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-float"></div>
-        <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-600 rounded-full mix-blend-overlay filter blur-[100px] opacity-20 animate-float" style="animation-delay: 2s"></div>
+    <header class="relative bg-slate-900 overflow-hidden no-print py-24 lg:py-32">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-DEFAULT rounded-full mix-blend-overlay filter blur-[100px] opacity-30 animate-float"></div>
+        <div class="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-600 rounded-full mix-blend-overlay filter blur-[100px] opacity-30 animate-float-delayed"></div>
         
-        <div class="container mx-auto px-4 relative z-10 text-center">
-            <span class="inline-block py-1.5 px-4 rounded-full bg-slate-800 border border-slate-700 text-slate-300 text-xs font-bold tracking-wider mb-6">
-                OFFICIAL PORTAL
+        <div class="container mx-auto px-4 relative z-10 text-center" data-aos="fade-up" data-aos-duration="1000">
+            <span class="inline-block py-1.5 px-4 rounded-full bg-slate-800/50 backdrop-blur-md border border-slate-700 text-slate-300 text-xs font-bold tracking-wider mb-6 hover:bg-slate-800 transition-colors cursor-default">
+                <i class="fa-solid fa-circle-check text-green-500 mr-2"></i>OFFICIAL PORTAL
             </span>
-            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight drop-shadow-lg">
                 Architects of <br/>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Future Leadership</span>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">Future Leadership</span>
             </h1>
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed font-light">
+            <p class="text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-md">
                 Bridging the gap between students and faculty. Meet the dedicated Class Representatives of the Computer Science & Engineering department.
             </p>
+            
+            <div class="mt-10 flex justify-center gap-4">
+                <a href="#cr-section" class="btn bg-primary-DEFAULT hover:bg-blue-600 text-white border-none rounded-full px-8 py-3 shadow-lg shadow-blue-500/30 transition-all hover:scale-105">
+                    Meet the CRs
+                </a>
+            </div>
         </div>
     </header>
 
-    <main id="cr-section" class="flex-grow container mx-auto px-4 -mt-16 relative z-20 no-print pb-20">
+    <main id="cr-section" class="flex-grow container mx-auto px-4 -mt-20 relative z-20 no-print pb-20">
         
-        <div class="glass-panel p-6 rounded-3xl shadow-xl mb-12 flex flex-col lg:flex-row gap-6 items-center justify-between">
+        <div class="glass-panel p-6 rounded-3xl shadow-xl mb-12 flex flex-col lg:flex-row gap-6 items-center justify-between" data-aos="fade-up" data-aos-delay="200">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full lg:w-3/4">
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-primary-DEFAULT">
                         <i class="fa-solid fa-clock"></i>
                     </div>
-                    <select id="shift-filter" class="select w-full pl-10 bg-white border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT rounded-xl text-sm font-medium text-slate-600 h-12">
+                    <select id="shift-filter" class="select w-full pl-10 bg-white/80 border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-DEFAULT/20 rounded-xl text-sm font-medium text-slate-600 h-12 cursor-pointer hover:bg-white transition-colors">
                         <option value="all">All Shifts</option>
                         <option value="Day">Day Shift</option>
                         <option value="Evening">Evening Shift</option>
                     </select>
                 </div>
 
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-primary-DEFAULT">
                         <i class="fa-solid fa-layer-group"></i>
                     </div>
-                    <select id="batch-filter" class="select w-full pl-10 bg-white border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT rounded-xl text-sm font-medium text-slate-600 h-12">
+                    <select id="batch-filter" class="select w-full pl-10 bg-white/80 border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-DEFAULT/20 rounded-xl text-sm font-medium text-slate-600 h-12 cursor-pointer hover:bg-white transition-colors">
                         <option value="all">All Batches</option>
                     </select>
                 </div>
 
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-primary-DEFAULT">
                         <i class="fa-solid fa-puzzle-piece"></i>
                     </div>
-                    <select id="section-filter" class="select w-full pl-10 bg-white border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-1 focus:ring-primary-DEFAULT rounded-xl text-sm font-medium text-slate-600 h-12">
+                    <select id="section-filter" class="select w-full pl-10 bg-white/80 border-slate-200 focus:outline-none focus:border-primary-DEFAULT focus:ring-2 focus:ring-primary-DEFAULT/20 rounded-xl text-sm font-medium text-slate-600 h-12 cursor-pointer hover:bg-white transition-colors">
                         <option value="all">All Sections</option>
                         <option value="A">Section A</option>
                         <option value="B">Section B</option>
@@ -172,16 +229,16 @@
                 </div>
             </div>
 
-            <button id="print-button" class="btn h-12 bg-slate-800 hover:bg-slate-900 text-white border-none rounded-xl px-8 shadow-lg shadow-slate-900/20 transition-transform active:scale-95 w-full lg:w-auto">
+            <button id="print-button" class="btn h-12 bg-slate-800 hover:bg-slate-900 text-white border-none rounded-xl px-8 shadow-lg shadow-slate-900/20 transition-all hover:-translate-y-1 active:scale-95 w-full lg:w-auto">
                 <i class="fa-solid fa-print mr-2"></i> Print List
             </button>
         </div>
 
-        <div id="cr-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div id="cr-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             </div>
 
-        <div id="no-results" class="hidden flex-col items-center justify-center py-24 text-center">
-            <div class="w-24 h-24 bg-slate-200 rounded-full flex items-center justify-center mb-4 text-slate-400">
+        <div id="no-results" class="hidden flex-col items-center justify-center py-24 text-center" data-aos="fade-in">
+            <div class="w-24 h-24 bg-slate-100 rounded-full flex items-center justify-center mb-4 text-slate-300 animate-pulse">
                 <i class="fa-solid fa-magnifying-glass text-4xl"></i>
             </div>
             <h3 class="text-xl font-bold text-slate-700">No Representatives Found</h3>
@@ -190,33 +247,35 @@
 
     </main>
 
-    <section id="notice-section" class="bg-white py-20 border-t border-slate-100 no-print">
-        <div class="container mx-auto px-4 max-w-5xl">
-            <div class="text-center mb-12">
+    <section id="notice-section" class="relative bg-white/80 backdrop-blur-lg py-20 border-t border-slate-200 no-print">
+        <div class="container mx-auto px-4 max-w-5xl relative z-10">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl font-bold text-slate-800">Notice Board</h2>
-                <div class="w-16 h-1 bg-primary-DEFAULT mx-auto mt-4 rounded-full"></div>
+                <div class="w-20 h-1.5 bg-gradient-to-r from-primary-DEFAULT to-purple-500 mx-auto mt-4 rounded-full"></div>
             </div>
 
             <div class="grid gap-6">
-                <div class="group bg-slate-50 hover:bg-white p-6 rounded-2xl border border-slate-100 hover:border-primary-DEFAULT/30 hover:shadow-lg transition-all duration-300 flex items-start gap-6 cursor-pointer">
-                    <div class="bg-white border border-slate-200 w-16 h-16 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:border-primary-DEFAULT group-hover:text-primary-DEFAULT transition-colors">
-                        <span class="text-xs font-bold uppercase text-slate-400">Sep</span>
-                        <span class="text-xl font-black">10</span>
+                <div class="group bg-white hover:bg-blue-50/50 p-6 rounded-2xl border border-slate-100 hover:border-blue-200 shadow-sm hover:shadow-xl transition-all duration-300 flex items-start gap-6 cursor-pointer transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="100">
+                    <div class="bg-slate-50 border border-slate-200 w-20 h-20 rounded-2xl flex flex-col items-center justify-center shadow-inner group-hover:bg-white group-hover:text-primary-DEFAULT transition-all">
+                        <span class="text-xs font-bold uppercase text-slate-400 group-hover:text-primary-DEFAULT">Sep</span>
+                        <span class="text-2xl font-black text-slate-700 group-hover:text-primary-DEFAULT">10</span>
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800 group-hover:text-primary-DEFAULT transition-colors">Departmental Executive Meeting</h3>
-                        <p class="text-slate-500 text-sm mt-1 leading-relaxed">Mandatory meeting for all CRs regarding the upcoming cultural fest. Venue: Room A-305 at 3:00 PM.</p>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-primary-DEFAULT transition-colors">Departmental Executive Meeting</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Mandatory meeting for all CRs regarding the upcoming cultural fest. Venue: Room A-305 at 3:00 PM.</p>
+                        <span class="inline-block mt-3 text-xs font-semibold text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">Read More <i class="fa-solid fa-arrow-right ml-1"></i></span>
                     </div>
                 </div>
 
-                <div class="group bg-slate-50 hover:bg-white p-6 rounded-2xl border border-slate-100 hover:border-primary-DEFAULT/30 hover:shadow-lg transition-all duration-300 flex items-start gap-6 cursor-pointer">
-                    <div class="bg-white border border-slate-200 w-16 h-16 rounded-xl flex flex-col items-center justify-center shadow-sm group-hover:border-primary-DEFAULT group-hover:text-primary-DEFAULT transition-colors">
-                        <span class="text-xs font-bold uppercase text-slate-400">Sep</span>
-                        <span class="text-xl font-black">08</span>
+                <div class="group bg-white hover:bg-blue-50/50 p-6 rounded-2xl border border-slate-100 hover:border-blue-200 shadow-sm hover:shadow-xl transition-all duration-300 flex items-start gap-6 cursor-pointer transform hover:-translate-y-1" data-aos="fade-up" data-aos-delay="200">
+                    <div class="bg-slate-50 border border-slate-200 w-20 h-20 rounded-2xl flex flex-col items-center justify-center shadow-inner group-hover:bg-white group-hover:text-primary-DEFAULT transition-all">
+                        <span class="text-xs font-bold uppercase text-slate-400 group-hover:text-primary-DEFAULT">Sep</span>
+                        <span class="text-2xl font-black text-slate-700 group-hover:text-primary-DEFAULT">08</span>
                     </div>
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800 group-hover:text-primary-DEFAULT transition-colors">Submit Student List</h3>
-                        <p class="text-slate-500 text-sm mt-1 leading-relaxed">Last date to submit the updated student contact list for the semester.</p>
+                        <h3 class="text-xl font-bold text-slate-800 group-hover:text-primary-DEFAULT transition-colors">Submit Student List</h3>
+                        <p class="text-slate-500 text-sm mt-2 leading-relaxed">Last date to submit the updated student contact list for the semester.</p>
+                         <span class="inline-block mt-3 text-xs font-semibold text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">Read More <i class="fa-solid fa-arrow-right ml-1"></i></span>
                     </div>
                 </div>
             </div>
@@ -225,26 +284,48 @@
 
     <div id="print-area" class="print-area hidden"></div>
 
-    <footer class="bg-slate-900 text-slate-400 py-12 no-print border-t border-slate-800">
-        <div class="container mx-auto px-4 text-center">
-            <div class="w-16 h-16 bg-gradient-to-tr from-primary-DEFAULT to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6 shadow-lg shadow-primary-DEFAULT/20">
+    <footer class="bg-slate-900 text-slate-400 py-16 no-print border-t border-slate-800 relative overflow-hidden">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-1 bg-gradient-to-r from-transparent via-primary-DEFAULT to-transparent opacity-50"></div>
+        
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <div class="w-20 h-20 bg-gradient-to-tr from-primary-DEFAULT to-purple-600 rounded-3xl flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-2xl shadow-primary-DEFAULT/20 transform hover:rotate-6 transition-transform duration-500">
                 <i class="fa-solid fa-university"></i>
             </div>
-            <h3 class="text-white font-bold text-xl mb-1">Dept. of Computer Science & Engineering</h3>
-            <p class="text-slate-500 mb-8">Port City International University</p>
+            <h3 class="text-white font-bold text-2xl mb-1 tracking-tight">Dept. of Computer Science & Engineering</h3>
+            <p class="text-slate-500 mb-10">Port City International University</p>
             
-            <div class="w-full h-px bg-slate-800 max-w-xs mx-auto mb-8"></div>
+            <div class="w-full h-px bg-slate-800 max-w-xs mx-auto mb-10"></div>
             
-            <div class="flex flex-col items-center justify-center gap-2 text-sm">
+            <div class="flex flex-col items-center justify-center gap-3 text-sm">
                 <p>&copy; 2025 PCIU CSE. All rights reserved.</p>
-                <p class="bg-slate-800 px-3 py-1 rounded-full text-xs font-semibold text-primary-DEFAULT">
-                    Developed by <span class="text-white">Mohammad Reza Uddin Tonmoy</span>
+                <p class="bg-slate-800/50 border border-slate-700 px-4 py-1.5 rounded-full text-xs font-semibold text-primary-DEFAULT transition-colors hover:bg-slate-800 hover:text-white">
+                    Developed by <span class="text-white">Mohammad Reza Uddin Tonmoy CSE-31-D-A</span>
                 </p>
             </div>
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
     <script>
+        // --- INITIALIZE AOS ---
+        AOS.init({
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+        });
+
+        // --- SCROLL TO TOP ---
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+
         // --- DATASET ---
         const crData = [
             // Day Shift
@@ -278,6 +359,7 @@
             { name: 'Fahmida Akter Shormi', batch: 25, section: 'A', shift: 'Day', photoUrl: 'Photos/sormi.jpg', email: 'ffahmidashormii@gmail.com', phone: '+8801642905250', social: { linkedin: '#', facebook: 'https://www.facebook.com/fahmida.shormi.39' } },
             { name: 'Shrabon Biswas', batch: 26, section: 'A', shift: 'Day', photoUrl: 'Photos/srabon.jpg', email: 'shrabon276@gmail.com', phone: '+8801830325855', social: { linkedin: '#', facebook: 'https://www.facebook.com/shrabon.biswas.80362/' } },
             { name: 'Sirajul Moni', batch: 27, section: 'A', shift: 'Day', photoUrl: 'Photos/monir.jpg', email: 'sirajulmonir423@gmail.com', phone: '+8801629028559', social: { linkedin: '#', facebook: 'https://www.facebook.com/sirajul.monir.127/about' } },
+            { name: 'Md Shadman Mahfuz Rafi', batch: 27, section: 'A', shift: 'Day', photoUrl: 'Photos/rafi.jpeg', email: '#', phone: '+8801516556513', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1CL3kyMJbt/?mibextid=wwXIfr' } },
             { name: 'Anayet Ullah Misbha', batch: 27, section: 'B', shift: 'Day', photoUrl: 'Photos/misbha.jpg', email: 'misbhaeducational@gmail.com', phone: '+8801881277194', social: { linkedin: '#', facebook: 'https://www.facebook.com/misbha1916/about' } },
             { name: 'Md Mehedi Hasan Babu', batch: 28, section: 'A', shift: 'Day', photoUrl: 'Photos/babu.jpg', email: 'mehedihasanbabu0280@gamil.com', phone: '+8801334855784', social: { linkedin: '#', facebook: 'https://www.facebook.com/md.mehedi.hasan.babu.182170/about' } },
             { name: 'Nusrat Tamanna', batch: 28, section: 'B', shift: 'Day', photoUrl: '', email: 'nusrat@pciu.edu.bd', phone: '+8801690096936', social: { linkedin: '#', facebook: 'https://www.facebook.com/nusrat.tamanna.132302#' } },
@@ -289,7 +371,7 @@
             { name: 'Naimul Islam Shanto', batch: 30, section: 'B', shift: 'Day', photoUrl: 'Photos/shanto.jpg', email: 'mdnishanto55@gmail.com', phone: '+8801703639871', social: { linkedin: '#', facebook: 'https://www.facebook.com/naimulislamshanto460/about' } },
             { name: 'Sadbin Karim Khan', batch: 30, section: 'B', shift: 'Day', photoUrl: '', email: 'shithikhan929@gmail.com', phone: '+8801752005160', social: { linkedin: '#', facebook: 'https://www.facebook.com/shithi.khan.156964' } },
             { name: 'Mohammad Reza Uddin Tonmoy', batch: 31, section: 'A', shift: 'Day', photoUrl: 'Photos/tonmoy.jpg', email: 'mdrezauddin_cse31d@portcity.edu.bd', phone: '+8801639056199', social: { linkedin: 'https://www.linkedin.com/in/mohammad-reza-uddin-tonmoy-902094374?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app', facebook: 'https://www.facebook.com/TonmoyR15/about' } },
-            { name: 'Abedul Alam ', batch: 31, section: 'A', shift: 'Day', photoUrl: 'Photos/abed.jpg', email: 'abedalamgf@gmail.com', phone: '+8801611817096', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1FCrs98MPH/' } },
+            { name: 'Mohammad Aiman ', batch: 31, section: 'A', shift: 'Day', photoUrl: 'Photos/aiman.jpeg', email: 'hil28171@gmail.com', phone: '+8801309752463', social: { linkedin: 'https://www.linkedin.com/in/mohammad-aiman-847714336?utm_source=share_via&utm_content=profile&utm_medium=member_ios', facebook: 'https://www.facebook.com/share/18FPoSpZ4U/?mibextid=wwXIfr' } },
             { name: 'Sujit Chakraborty', batch: 31, section: 'B', shift: 'Day', photoUrl: 'Photos/sujit.jpg', email: 'Sujitchakraborty401@gmail.com', phone: '+8801997730529', social: { linkedin: '#', facebook: 'https://www.facebook.com/sujita.cakrabarti.2025/about' } },
             { name: 'Ramish Jahra Binte Hossain ', batch: 31, section: 'C', shift: 'Day', photoUrl: '', email: 'ramishjahra@gmail.com', phone: '+8801839237765', social: { linkedin: '#', facebook: 'https://www.facebook.com/100068473560776/' } },
             { name: 'Arpita Barua Pew', batch: 32, section: 'A', shift: 'Day', photoUrl: 'Photos/pew.jpg', email: 'arpitabaruapew@gmail.com', phone: '+8801310780182', social: { linkedin: '#', facebook: 'https://www.facebook.com/100089288349897/' } },
@@ -299,14 +381,21 @@
             { name: 'Syeda Dillir Hossain Binti', batch: 33, section: 'A', shift: 'Day', photoUrl: '', email: 'dillirhossainbinti@gmail.com', phone: '+8801834001202', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1M65ws4ZK9/' } },
             { name: 'Sawda Akter Sinthia', batch: 33, section: 'A', shift: 'Day', photoUrl: 'Photos/33-a.jpg', email: 'cynthiakhan76@gmail.com', phone: '01630271303', social: { linkedin: '#', facebook: 'https://www.facebook.com' } },
             { name: 'Mosammet Nafisa Sultana ', batch: 33, section: 'B', shift: 'Day', photoUrl: '', email: 'nafisasultana566@gmail.com', phone: '+8801845305677', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/19yu6F6BjJ/' } },
-            { name: 'Tahsin Sultana Tanisha', batch: 33, section: 'B', shift: 'Day', photoUrl: '', email: 'tstanisha04@gmail.com', phone: '+8801824261177', social: { linkedin: '#', facebook: 'https://www.facebook.com/t.s.tanisha.04?mibextid=ZbWKwL' } },
+            { name: 'Md Rafin Ahmed Shuvo', batch: 33, section: 'B', shift: 'Day', photoUrl: 'Photos/rafin.jpeg', email: 'rafinahmed635@gmail.com', phone: '+8801870443866', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1E5qWmB5PY/' } },
             { name: 'Jannatul Jahan Ananna ', batch: 33, section: 'C', shift: 'Day', photoUrl: '', email: 'anannaj@870gmail. com', phone: '+8801722087480', social: { linkedin: '#', facebook: 'https://www.facebook.com/jannatul.jahan.ananna' } },
             { name: 'Saidul Karim Ayas', batch: 33, section: 'C', shift: 'Day', photoUrl: 'Photos/ayas.jpg', email: 'saidulayas@gmail.com', phone: '+8801878584905', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/17GoXQmj1g/' } },
             { name: 'Rimon Chowdhury', batch: 34, section: 'A', shift: 'Day', photoUrl: 'Photos/34-a.jpeg', email: 'rimonchy.bgd@gmail.com', phone: '01316532326', social: { linkedin: '#', facebook: 'https://www.facebook.com/RimonChowdhury2.0' } },
             { name: 'Shahria Alam', batch: 34, section: 'A', shift: 'Day', photoUrl: 'Photos/34-a2.jpeg', email: 'shahriaalam95@gmail.com', phone: '01885074323', social: { linkedin: '#', facebook: '#' } },
             { name: 'Fardil Khan', batch: 34, section: 'B', shift: 'Day', photoUrl: 'Photos/fardil.jpg', email: 'fardil1488@gmail.com', phone: '+8801880616172', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1JwpjmZBJe/' } },
+            { name: 'MD Jawdat Hossain ', batch: 34, section: 'B', shift: 'Day', photoUrl: 'Photos/jawad-34.jpeg', email: 'jh488845@gmail.com', phone: '+8801511812845', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/18EwzMXCdB/' } },
+            { name: 'Sheik Mohammed Akib', batch: 35, section: 'A', shift: 'Day', photoUrl: '', email: '#', phone: '+8801979553858', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1A1BihPCvS/' } },
             { name: 'Tyaba Akter ', batch: 35, section: 'A', shift: 'Day', photoUrl: '', email: 'tyabaar111@gmail.com', phone: '+8801827939111', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1A1BihPCvS/' } },
-            { name: 'Fariha Jahan', batch: 35, section: 'B', shift: 'Day', photoUrl: '', email: 'farihajahan487@gmail.com', phone: '+8801880028552', social: { linkedin: '#', facebook: 'https://www.facebook.com/faariha21' } },
+            { name: 'Humaira Ferdousi', batch: 35, section: 'B', shift: 'Day', photoUrl: '', email: '#', phone: '+8801604940538', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Seemanta Barua', batch: 35, section: 'B', shift: 'Day', photoUrl: '', email: '#', phone: '+8801984391392', social: { linkedin: '#', facebook: '#' } },
+            { name: 'Raytul Hasan Masum', batch: 36, section: 'A', shift: 'Day', photoUrl: 'Photos/masum.jpeg', email: ' rhmyt98@gmail.com', phone: '+8801838372898', social: { linkedin: '#', facebook: 'https://www.facebook.com/share/1D6sjFQpEj/' } },
+            { name: 'Fatema Akter Anna', batch: 36, section: 'A', shift: 'Day', photoUrl: 'Photos/anna.jpeg', email: 'fatemaakteranna25102004@gmail.com', phone: '+8801841422472', social: { linkedin: 'https://www.linkedin.com/in/inspire-heal-by-fatema-anna-3378a5298?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app', facebook: 'https://www.facebook.com/fatemaakter.anna.9' } },
+            { name: 'Boktiyer Hossen', batch: 36, section: 'B', shift: 'Day', photoUrl: 'Photos/boktiyar.jpeg', email: 'boktiyerhossen43085@gmail.com', phone: '+8801852294059', social: { linkedin: 'https://www.linkedin.com/in/boktiyer-hossen-b460a6391?utm_source=share_via&utm_content=profile&utm_medium=member_android', facebook: 'https://www.facebook.com/share/1ZzgbdXXmZ/' } },
+            { name: 'Sneha Das', batch: 36, section: 'B', shift: 'Day', photoUrl: '', email: '#', phone: '+8801619621114', social: { linkedin: '#', facebook: '#' } },
             
             // Evening Shift
             { name: 'Ahad', batch: 29, section: 'A', shift: 'Evening', photoUrl: '', email: 'Not Available', phone: '+8801642762700', social: { linkedin: '#', facebook: '#' } },
@@ -331,7 +420,6 @@
         };
 
         // --- FALLBACK IMAGE ---
-        // Generic avatar for missing photos
         const fallbackImage = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
 
         // --- CORE FUNCTIONS ---
@@ -348,7 +436,7 @@
             }
 
             data.forEach((cr, index) => {
-                // Check if links exist, otherwise use default homepages
+                // Check if links exist
                 const fbLink = (cr.social.facebook && cr.social.facebook !== '#') ? cr.social.facebook : 'https://www.facebook.com';
                 const liLink = (cr.social.linkedin && cr.social.linkedin !== '#') ? cr.social.linkedin : 'https://www.linkedin.com';
                 
@@ -361,56 +449,64 @@
                 let displayImage = cr.photoUrl;
                 if(!displayImage || displayImage.trim() === '') displayImage = fallbackImage;
 
-                const delay = index * 50; // Staggered animation
+                // Staggered animation delay logic
+                const delay = (index % 10) * 100;
 
                 const cardHTML = `
-                <div class="cr-card bg-white rounded-3xl overflow-hidden border border-slate-100 flex flex-col h-full animate-fade-in" style="animation-delay: ${delay}ms">
-                    <div class="h-64 overflow-hidden relative group">
-                        <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex items-center justify-center">
-                            <span class="text-white font-semibold tracking-wide transform translate-y-4 group-hover:translate-y-0 transition-transform">View Details</span>
+                <div class="cr-card rounded-3xl overflow-hidden border border-slate-100 flex flex-col h-full" 
+                     data-aos="fade-up" 
+                     data-aos-delay="${delay}">
+                    <div class="h-64 cr-image-container relative group cursor-pointer">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 flex flex-col items-center justify-end pb-6">
+                            <span class="text-white font-medium transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">View Profile</span>
                         </div>
                         <img 
                             src="${displayImage}" 
                             alt="${cr.name}" 
-                            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            class="w-full h-full object-cover"
                             onerror="this.onerror=null; this.src='${fallbackImage}';"
                         />
+                        <div class="absolute top-4 right-4 z-20">
+                             <span class="px-3 py-1 rounded-full text-xs font-bold ${badgeColor} shadow-sm backdrop-blur-sm bg-opacity-90 border uppercase tracking-wide">
+                                ${(cr.shift || 'Day')}
+                            </span>
+                        </div>
                     </div>
                     
-                    <div class="p-6 flex flex-col flex-grow">
+                    <div class="p-6 flex flex-col flex-grow relative">
                         <div class="flex-grow text-center">
-                            <h3 class="text-lg font-bold text-slate-800 mb-2 leading-tight">${cr.name}</h3>
+                            <h3 class="text-lg font-bold text-slate-800 mb-2 leading-tight group-hover:text-primary-DEFAULT transition-colors">${cr.name}</h3>
                             
                             <div class="flex flex-wrap justify-center gap-2 mb-6">
-                                <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
+                                <span class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-100 text-slate-500 border border-slate-200">
                                     Batch ${cr.batch}
                                 </span>
-                                <span class="px-2.5 py-1 rounded-md text-xs font-bold ${badgeColor} border uppercase tracking-wide">
-                                    ${(cr.shift || 'Day').substring(0,3)} - ${cr.section}
+                                <span class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-50 text-slate-500 border border-slate-200">
+                                    Sec - ${cr.section}
                                 </span>
                             </div>
 
                             <div class="space-y-3 w-full text-left">
-                                <a href="mailto:${cr.email}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors group/link">
-                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-xs group-hover/link:bg-blue-500 group-hover/link:text-white transition-all">
+                                <a href="mailto:${cr.email}" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/link border border-transparent hover:border-slate-100">
+                                    <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-xs group-hover/link:bg-blue-500 group-hover/link:text-white transition-all shadow-sm">
                                         <i class="fa-regular fa-envelope"></i>
                                     </div>
-                                    <span class="text-sm text-slate-500 truncate" title="${cr.email}">${cr.email}</span>
+                                    <span class="text-sm text-slate-500 truncate font-medium group-hover/link:text-slate-700" title="${cr.email}">${cr.email}</span>
                                 </a>
-                                <a href="tel:${cr.phone}" class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 transition-colors group/link">
-                                    <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-xs group-hover/link:bg-emerald-500 group-hover/link:text-white transition-all">
+                                <a href="tel:${cr.phone}" class="flex items-center gap-3 p-2.5 rounded-xl hover:bg-slate-50 transition-colors group/link border border-transparent hover:border-slate-100">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-xs group-hover/link:bg-emerald-500 group-hover/link:text-white transition-all shadow-sm">
                                         <i class="fa-solid fa-phone"></i>
                                     </div>
-                                    <span class="text-sm text-slate-500 truncate">${cr.phone}</span>
+                                    <span class="text-sm text-slate-500 truncate font-medium group-hover/link:text-slate-700">${cr.phone}</span>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="mt-6 pt-4 border-t border-slate-100 flex justify-center gap-3">
-                            <a href="${fbLink}" target="_blank" class="w-9 h-9 rounded-full bg-slate-50 text-slate-400 hover:bg-[#1877F2] hover:text-white flex items-center justify-center transition-all duration-300">
+                        <div class="mt-6 pt-5 border-t border-slate-100 flex justify-center gap-4">
+                            <a href="${fbLink}" target="_blank" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-[#1877F2] hover:text-white hover:-translate-y-1 hover:shadow-lg hover:shadow-blue-500/30 flex items-center justify-center transition-all duration-300">
                                 <i class="fa-brands fa-facebook-f"></i>
                             </a>
-                            <a href="${liLink}" target="_blank" class="w-9 h-9 rounded-full bg-slate-50 text-slate-400 hover:bg-[#0077b5] hover:text-white flex items-center justify-center transition-all duration-300">
+                            <a href="${liLink}" target="_blank" class="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-[#0077b5] hover:text-white hover:-translate-y-1 hover:shadow-lg hover:shadow-sky-500/30 flex items-center justify-center transition-all duration-300">
                                 <i class="fa-brands fa-linkedin-in"></i>
                             </a>
                         </div>
@@ -419,6 +515,11 @@
                 
                 dom.container.insertAdjacentHTML('beforeend', cardHTML);
             });
+            
+            // Refresh AOS to detect new elements
+            setTimeout(() => {
+                AOS.refresh();
+            }, 100);
         }
 
         function initFilters() {
@@ -462,7 +563,7 @@
 
             let tableHTML = `
                 <div style="text-align:center; margin-bottom: 2rem;">
-                    <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 5px;">PCIU CSE Representatives</h2>
+                    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 5px;">PCIU CSE Representatives</h2>
                     <p style="color: #64748b; font-size: 14px;">Generated on ${new Date().toLocaleDateString()}</p>
                 </div>
                 <table id="print-table">
